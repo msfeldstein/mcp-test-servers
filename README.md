@@ -39,6 +39,63 @@ The resource server exposes:
 - MIME Type: `text/plain`
 - Content: "Hello, world"
 
+### Combined Server
+A server that combines both the ping tool and the text resource functionality.
+
+To run:
+```bash
+# Using npm script
+npm run combined
+
+# Using npx (after npm link)
+npx mcp-test-servers combined
+
+# Using npx (after publishing)
+npx @msfeldstein/mcp-test-servers combined
+```
+
+The combined server provides:
+- The "ping" tool that returns "pong"
+- A text resource at `test://hello.txt` containing "Hello, world"
+
+### Broken Tool Server
+A server that starts successfully but has a tool that crashes when called. Useful for testing error handling in tool execution.
+
+To run:
+```bash
+# Using npm script
+npm run broken-tool
+
+# Using npx (after npm link)
+npx mcp-test-servers broken-tool
+
+# Using npx (after publishing)
+npx @msfeldstein/mcp-test-servers broken-tool
+```
+
+The broken-tool server provides:
+- A "crash" tool that throws an error when called
+- Error message: "This tool is intentionally broken!"
+
+### Crash On Startup Server
+A server that crashes immediately during initialization. Useful for testing server startup error handling.
+
+To run:
+```bash
+# Using npm script
+npm run crash-on-startup
+
+# Using npx (after npm link)
+npx mcp-test-servers crash-on-startup
+
+# Using npx (after publishing)
+npx @msfeldstein/mcp-test-servers crash-on-startup
+```
+
+The crash-on-startup server:
+- Throws an error before MCP server initialization
+- Error message: "Server crashed during startup!"
+
 ## Development
 
 To work on this project locally:

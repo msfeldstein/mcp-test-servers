@@ -3,7 +3,7 @@
 const serverType = process.argv[2];
 
 if (!serverType) {
-  console.error('Please specify a server type: ping or resource');
+  console.error('Please specify a server type: ping, resource, combined, broken-tool, or crash-on-startup');
   console.error('Example: npx @msfeldstein/mcp-test-servers ping');
   process.exit(1);
 }
@@ -15,8 +15,17 @@ switch (serverType) {
   case 'resource':
     import('./resource-server.js');
     break;
+  case 'combined':
+    import('./combined-server.js');
+    break;
+  case 'broken-tool':
+    import('./broken-tool-server.js');
+    break;
+  case 'crash-on-startup':
+    import('./crash-on-startup-server.js');
+    break;
   default:
     console.error('Unknown server type:', serverType);
-    console.error('Available types: ping, resource');
+    console.error('Available types: ping, resource, combined, broken-tool, crash-on-startup');
     process.exit(1);
 } 

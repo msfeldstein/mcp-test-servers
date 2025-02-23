@@ -1,18 +1,21 @@
 {
   "name": "@msfeldstein/mcp-test-servers",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "type": "module",
   "bin": {
     "mcp-test-servers": "./src/cli.js"
   },
   "scripts": {
     "ping": "node src/cli.js ping",
-    "resource": "node src/cli.js resource"
+    "resource": "node src/cli.js resource",
+    "combined": "node src/cli.js combined",
+    "broken-tool": "node src/cli.js broken-tool",
+    "crash-on-startup": "node src/cli.js crash-on-startup"
   },
   "keywords": ["mcp", "model-context-protocol"],
   "author": "Michael Feldstein",
   "license": "ISC",
-  "description": "A collection of MCP test servers",
+  "description": "A collection of MCP test servers including working servers (ping, resource, combined) and test failure cases (broken-tool, crash-on-startup)",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.5.0"
   },
