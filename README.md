@@ -96,6 +96,26 @@ The crash-on-startup server:
 - Throws an error before MCP server initialization
 - Error message: "Server crashed during startup!"
 
+### Environment Check Server
+A server that demonstrates environment variable validation. The server will only start if the SHOULD_RUN environment variable is set to "true".
+
+To run:
+```bash
+# Using npm script with environment variable
+SHOULD_RUN=true npm run env-check
+
+# Using npx (after npm link)
+SHOULD_RUN=true npx mcp-test-servers env-check
+
+# Using npx (after publishing)
+SHOULD_RUN=true npx @msfeldstein/mcp-test-servers env-check
+```
+
+The env-check server provides:
+- A "status" tool that confirms the server is running
+- Crashes on startup if SHOULD_RUN is not set to "true"
+- Error message: "SHOULD_RUN environment variable must be set to 'true' to start this server"
+
 ## Development
 
 To work on this project locally:

@@ -1,6 +1,6 @@
 {
   "name": "@msfeldstein/mcp-test-servers",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "type": "module",
   "bin": {
     "mcp-test-servers": "./src/cli.js"
@@ -10,7 +10,8 @@
     "resource": "node src/cli.js resource",
     "combined": "node src/cli.js combined",
     "broken-tool": "node src/cli.js broken-tool",
-    "crash-on-startup": "node src/cli.js crash-on-startup"
+    "crash-on-startup": "node src/cli.js crash-on-startup",
+    "env-check": "node src/cli.js env-check"
   },
   "keywords": ["mcp", "model-context-protocol"],
   "author": "Michael Feldstein",
