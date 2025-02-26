@@ -3,7 +3,7 @@
 const serverType = process.argv[2];
 
 if (!serverType) {
-  console.error('Please specify a server type: ping, resource, combined, broken-tool, crash-on-startup, or env-check');
+  console.error('Please specify a server type: ping, resource, combined, broken-tool, crash-on-startup, env-check, or env-echo');
   console.error('Example: npx @msfeldstein/mcp-test-servers ping');
   process.exit(1);
 }
@@ -27,8 +27,11 @@ switch (serverType) {
   case 'env-check':
     import('./env-check-server.js');
     break;
+  case 'env-echo':
+    import('./env-echo-server.js');
+    break;
   default:
     console.error('Unknown server type:', serverType);
-    console.error('Available types: ping, resource, combined, broken-tool, crash-on-startup, env-check');
+    console.error('Available types: ping, resource, combined, broken-tool, crash-on-startup, env-check, env-echo');
     process.exit(1);
 } 
