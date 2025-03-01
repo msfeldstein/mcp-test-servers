@@ -79,3 +79,5 @@ server.tool("echo", {
 
 // Connect to the transport and start the server
 await server.connect(new StdioServerTransport()); 
+
+// This server implements basic ping and echo functionality with configurable response delays

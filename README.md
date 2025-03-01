@@ -1,145 +1,53 @@
-# MCP Test Servers
+# Ubuntu SSH Docker Container
 
-This package provides a collection of simple MCP (Model Context Protocol) servers for testing and demonstration purposes.
+This project provides a Docker container running Ubuntu with SSH access.
 
-## Available Servers
+## Setup
 
-### Ping Server
-A simple server that provides a single tool called "ping" which returns "pong".
+1. Make sure you have Docker and Docker Compose installed on your system.
 
-To run:
-```bash
-# Using npm script
-npm run ping
-
-# Using npx (after npm link)
-npx mcp-test-servers ping
-
-# Using npx (after publishing)
-npx @msfeldstein/mcp-test-servers ping
-```
-
-### Resource Server
-A server that provides a simple text resource with the content "Hello, world".
-
-To run:
-```bash
-# Using npm script
-npm run resource
-
-# Using npx (after npm link)
-npx mcp-test-servers resource
-
-# Using npx (after publishing)
-npx @msfeldstein/mcp-test-servers resource
-```
-
-The resource server exposes:
-- Resource URI: `test://hello.txt`
-- MIME Type: `text/plain`
-- Content: "Hello, world"
-
-### Combined Server
-A server that combines both the ping tool and the text resource functionality.
-
-To run:
-```bash
-# Using npm script
-npm run combined
-
-# Using npx (after npm link)
-npx mcp-test-servers combined
-
-# Using npx (after publishing)
-npx @msfeldstein/mcp-test-servers combined
-```
-
-The combined server provides:
-- The "ping" tool that returns "pong"
-- A text resource at `test://hello.txt` containing "Hello, world"
-
-### Broken Tool Server
-A server that starts successfully but has a tool that crashes when called. Useful for testing error handling in tool execution.
-
-To run:
-```bash
-# Using npm script
-npm run broken-tool
-
-# Using npx (after npm link)
-npx mcp-test-servers broken-tool
-
-# Using npx (after publishing)
-npx @msfeldstein/mcp-test-servers broken-tool
-```
-
-The broken-tool server provides:
-- A "crash" tool that throws an error when called
-- Error message: "This tool is intentionally broken!"
-
-### Crash On Startup Server
-A server that crashes immediately during initialization. Useful for testing server startup error handling.
-
-To run:
-```bash
-# Using npm script
-npm run crash-on-startup
-
-# Using npx (after npm link)
-npx mcp-test-servers crash-on-startup
-
-# Using npx (after publishing)
-npx @msfeldstein/mcp-test-servers crash-on-startup
-```
-
-The crash-on-startup server:
-- Throws an error before MCP server initialization
-- Error message: "Server crashed during startup!"
-
-### Environment Check Server
-A server that demonstrates environment variable validation. The server will only start if the SHOULD_RUN environment variable is set to "true".
-
-To run:
-```bash
-# Using npm script with environment variable
-SHOULD_RUN=true npm run env-check
-
-# Using npx (after npm link)
-SHOULD_RUN=true npx mcp-test-servers env-check
-
-# Using npx (after publishing)
-SHOULD_RUN=true npx @msfeldstein/mcp-test-servers env-check
-```
-
-The env-check server provides:
-- A "status" tool that confirms the server is running
-- Crashes on startup if SHOULD_RUN is not set to "true"
-- Error message: "SHOULD_RUN environment variable must be set to 'true' to start this server"
-
-## Development
-
-To work on this project locally:
-
-1. Clone the repository
-2. Install dependencies: `npm install`
-3. Link the package: `npm link`
-4. Run any server using the commands above
-
-## Publishing
-
-To publish this package:
-
-1. Make sure you're logged in to npm with the correct account:
-   ```bash
-   npm login
+2. Create a shared directory for file exchange between host and container:
+   ```
+   mkdir -p shared
    ```
 
-2. Publish the package:
-   ```bash
-   npm publish
+3. Build and start the container:
+   ```
+   docker-compose up -d
    ```
 
-Note: This package is published under the `@msfeldstein` namespace and is configured for public access.
+## Accessing the Container
 
-## License
-ISC 
+### SSH Access
+
+Connect to the container using SSH:
+```
+ssh ubuntu@localhost -p 2222
+```
+
+Password: `ubuntu`
+
+You can also connect as root:
+```
+ssh root@localhost -p 2222
+```
+
+Password: `root`
+
+### Direct Container Access
+
+You can also access the container directly using Docker:
+```
+docker exec -it ubuntu-ssh bash
+```
+
+## Shared Files
+
+The `./shared` directory on your host is mounted to `/home/ubuntu/shared` in the container. You can use this to exchange files between your host and the container.
+
+## Stopping the Container
+
+To stop the container:
+```
+docker-compose down
+``` 
