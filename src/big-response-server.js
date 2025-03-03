@@ -16,12 +16,12 @@ const server = new McpServer(
           parameters: {
             type: "object",
             properties: {
-              length: {
+              stringLength: {
                 type: "integer",
                 description: "The length of the random string to generate"
               }
             },
-            required: ['length']
+            required: ['stringLength']
           }
         }
       }
@@ -41,14 +41,14 @@ function generateRandomString(length) {
 
 // Register a tool that generates a random string of specified length
 server.tool("generate_big_response", {
-  length: z.number().int().positive().describe("The length of the random string to generate")
+  stringLength: z.number().int().positive().describe("The length of the random string to generate")
 }, async (params) => {
-  const randomString = generateRandomString(params.length);
+  const randomString = generateRandomString(params.stringLength);
   
   return {
     content: [{
       type: "text",
-      text: `Generated random string of length ${params.length}:\n${randomString}`
+      text: `Generated random string of length ${params.stringLength}:\n${randomString}`
     }]
   };
 });
