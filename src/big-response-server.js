@@ -2,6 +2,7 @@
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
+import { z } from "zod";
 
 // Create a new MCP server with stdio transport
 const server = new McpServer(
@@ -9,7 +10,21 @@ const server = new McpServer(
     name: "big-response-server",
     version: "1.0.0",
     capabilities: {
-      tools: {}
+      tools: {
+        "generate_big_response": {
+          description: "Generates a random string of specified length",
+          parameters: {
+            type: "object",
+            properties: {
+              length: {
+                type: "integer",
+                description: "The length of the random string to generate"
+              }
+            },
+            required: ['length']
+          }
+        }
+      }
     }
   }
 );
@@ -25,33 +40,15 @@ function generateRandomString(length) {
 }
 
 // Register a tool that generates a random string of specified length
-server.tool("generate_big_response", async (params) => {
-  if (!params || !params.length) {
-    return {
-      content: [{
-        type: "text",
-        text: "Error: Length parameter is required"
-      }]
-    };
-  }
-
-  const length = parseInt(params.length);
-  
-  if (isNaN(length) || length <= 0) {
-    return {
-      content: [{
-        type: "text",
-        text: "Error: Length must be a positive number"
-      }]
-    };
-  }
-
-  const randomString = generateRandomString(length);
+server.tool("generate_big_response", {
+  length: z.number().int().positive().describe("The length of the random string to generate")
+}, async (params) => {
+  const randomString = generateRandomString(params.length);
   
   return {
     content: [{
       type: "text",
-      text: `Generated random string of length ${length}:\n${randomString}`
+      text: `Generated random string of length ${params.length}:\n${randomString}`
     }]
   };
 });
