@@ -36,8 +36,14 @@ switch (serverType) {
   case 'duplicate-names':
     import('./duplicate-names-server.js');
     break;
+  case 'image':
+    import('./image-server.js');
+    break;
+  case 'big-response':
+    import('./big-response-server.js');
+    break;
   default:
     console.error('Unknown server type:', serverType);
-    console.error('Available types: ping, resource, combined, broken-tool, crash-on-startup, env-check, env-echo, many-resources, duplicate-names');
+    console.error('Available types: ping, resource, combined, broken-tool, crash-on-startup, env-check, env-echo, many-resources, duplicate-names, image, big-response');
     process.exit(1);
 } 
