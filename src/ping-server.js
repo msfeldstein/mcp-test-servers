@@ -18,7 +18,7 @@ const server = new McpServer(
             required: []
           }
         },
-        "long-running-ping": {
+        "long-running-ping-long-running-ping-long-running-ping-long-running-ping-long-running-ping-long-running-ping-long-running-ping-long-running-ping-long-running-ping-long-running-ping-": {
           description: "A tool that waits for a specified duration before returning 'pong'",
           parameters: {
             type: "object",
