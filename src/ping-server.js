@@ -37,7 +37,7 @@ const server = new McpServer(
 );
 
 // Register the ping tool
-server.tool("ping", async (params) => {
+server.tool("long-running-ping-long-running-ping-long-running-ping-long-running-ping-long-running-ping-long-running-ping-long-running-ping-long-running-ping-long-running-ping-long-running-ping", async (params) => {
   return {
     content: [{
       type: "text",
