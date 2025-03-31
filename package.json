@@ -16,7 +16,7 @@
     "many-resources": "node src/cli.js many-resources",
     "duplicate-names": "node src/cli.js duplicate-names",
     "many-tools": "node src/cli.js many-tools",
-    "publish": "git commit -a -m 'publish' && npm version patch && git push && npm publish"
+    "bump-and-publish": "git commit -a -m 'publish' && npm version patch && git push && npm publish"
   },
   "keywords": [
     "mcp",
