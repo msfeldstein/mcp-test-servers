@@ -18,26 +18,13 @@ const server = new McpServer(
             required: []
           }
         },
-        "long-running-ping-long-running-ping-long-running-ping-long-running-ping-long-running-ping-long-running-ping-long-running-ping-long-running-ping-long-running-ping-long-running-ping-": {
-          description: "A tool that waits for a specified duration before returning 'pong'",
-          parameters: {
-            type: "object",
-            properties: {
-              waitTimeMs: {
-                type: "integer",
-                description: "The time to wait in milliseconds before returning the response"
-              }
-            },
-            required: ['waitTimeMs']
-          }
-        }
       }
     }
   }
 );
 
 // Register the ping tool
-server.tool("long-running-ping-long-running-ping-long-running-ping-long-running-ping-long-running-ping-long-running-ping-long-running-ping-long-running-ping-long-running-ping-long-running-ping", async (params) => {
+server.tool("ping", async (params) => {
   return {
     content: [{
       type: "text",

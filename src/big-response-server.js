@@ -4,7 +4,7 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
 
-// Create a new MCP server with stdio transport
+// server is an MCP server that can generate a random string of a specified length
 const server = new McpServer(
   {
     name: "big-response-server",
@@ -29,7 +29,7 @@ const server = new McpServer(
   }
 );
 
-// Function to generate random string of specified length
+// generateRandomString is a helper function that generates a random string of a specified length
 function generateRandomString(length) {
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   let result = '';
@@ -39,7 +39,7 @@ function generateRandomString(length) {
   return result;
 }
 
-// Register a tool that generates a random string of specified length
+// register the generate_big_response tool 
 server.tool("generate_big_response", {
   stringLength: z.number().int().positive().describe("The length of the random string to generate")
 }, async (params) => {
@@ -53,5 +53,4 @@ server.tool("generate_big_response", {
   };
 });
 
-// Connect to the transport and start the server
 await server.connect(new StdioServerTransport()); 
