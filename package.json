@@ -1,6 +1,6 @@
 {
   "name": "@msfeldstein/mcp-test-servers",
-  "version": "1.0.34",
+  "version": "1.0.35",
   "type": "module",
   "bin": {
     "mcp-test-servers": "./src/cli.js"
@@ -15,7 +15,8 @@
     "env-echo": "node src/cli.js env-echo",
     "many-resources": "node src/cli.js many-resources",
     "duplicate-names": "node src/cli.js duplicate-names",
-    "many-tools": "node src/cli.js many-tools"
+    "many-tools": "node src/cli.js many-tools",
+    "publish": "git commit -a -m 'publish' && npm version patch && git push && npm publish"
   },
   "keywords": [
     "mcp",
