@@ -8,7 +8,7 @@ import { z } from "zod";
 const server = new McpServer(
   {
     name: "big-response-server",
-    version: "1.0.0",
+    version: "1.0.1",
     capabilities: {
       tools: {
         "generate_big_response": {
