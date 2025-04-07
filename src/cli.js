@@ -57,6 +57,9 @@ switch (serverType) {
   case 'bad-param':
     import('./bad-param-server.js');
     break;
+  case 'stderr':
+    import('./stderr-server.js');
+    break;
   default:
     console.error('Unknown server type:', serverType);
     console.error('Available types: ping, resource, combined, broken-tool, crash-on-startup, env-check, env-echo, many-resources, duplicate-names, image, big-response, date, time, many-tools, named');
