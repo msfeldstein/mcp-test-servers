@@ -19,6 +19,9 @@ A collection of test servers implementing the Model Context Protocol (MCP).
 - `time`: Server that returns the current time in ISO format
 - `many-tools`: Server with 100 tools that each return 'ack'
 - `named`: Server with configurable name via MCP_SERVER_NAME environment variable
+- `bad-param`: Server with an intentionally malformed parameter name
+- `stderr`: Server that logs to stderr
+- `optional-param`: Server with optional parameters
 
 ## Usage
 
@@ -122,3 +125,24 @@ The named server allows testing with custom server names:
 - No parameters required
 - Name can be set via MCP_SERVER_NAME environment variable
 - Defaults to 'unnamed-server' if no name is provided
+
+### Bad Param Server
+The bad-param server includes a tool with an incorrectly formed parameter name:
+- Tool: `bad-param`
+- Parameter: Has an invalid parameter name with special characters
+- Useful for testing how clients handle malformed parameter definitions
+
+### Stderr Server
+The stderr server demonstrates stderr logging:
+- Tool: `log-to-stderr`
+- Behavior: Logs a message to stderr while responding
+- Returns: "Should have logged to stderr"
+- No parameters required
+
+### Optional Param Server
+The optional-param server demonstrates parameter optionality:
+- Tool: `echo`
+- Parameters: 
+  - `name` (required): The name of the caller
+  - `text` (optional): The text to echo
+- Returns: The provided text or "No message sent" if no text was provided

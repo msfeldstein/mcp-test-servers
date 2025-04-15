@@ -34,7 +34,7 @@ server.tool("ping", async (params) => {
 });
 
 // Register the long-running-ping tool
-server.tool("long-running-ping-2", {
+server.tool("long-running-ping", {
   waitTimeMs: z.number().optional().default(3000).describe("The time to wait in milliseconds before returning the response")
 }, async (params) => {
   // Get the wait duration in milliseconds (default to 3000ms if not provided)
