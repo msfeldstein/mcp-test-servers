@@ -21,4 +21,4 @@ server.tool("crash", async (params) => {
 });
 
 // Connect to the transport and start the server
-await server.connect(new StdioServerTransport()); 
+await server.connect(new StdioServerTransport());
