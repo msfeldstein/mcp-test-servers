@@ -5,7 +5,7 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 
 // Get description tokens from environment variable or use default
 const descriptionTokens = parseInt(process.env.DESCRIPTION_TOKENS || "2000", 10);
-const baseDescription = "this is a 10 token description to repeat.";
+const baseDescription = "this is a 10 token description to repeat. ";
 const repetitions = Math.ceil(descriptionTokens / 10); // Each repetition is ~10 tokens
 
 // Create a new MCP server with stdio transport
