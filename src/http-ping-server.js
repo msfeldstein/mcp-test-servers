@@ -4,6 +4,8 @@ import express from "express";
 import cors from "cors";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
+import { isInitializeRequest } from "@modelcontextprotocol/sdk/types.js";
+import { InMemoryEventStore } from "@modelcontextprotocol/sdk/examples/shared/inMemoryEventStore.js";
 
 // Create a new MCP server with stdio transport
 const server = new McpServer(
@@ -42,7 +44,6 @@ const transport = new StreamableHTTPServerTransport({
   sessionIdGenerator: undefined, // set to undefined for stateless servers
 });
 
-
 // Setup routes for the server
 const setupServer = async () => {
   await server.connect(transport);
@@ -52,7 +53,7 @@ app.post('/mcp', async (req, res) => {
   console.log('Received MCP request:', req.body);
   try {
       await transport.handleRequest(req, res, req.body);
-  } catch (error) { 
+  } catch (error) {
     console.error('Error handling MCP request:', error);
     if (!res.headersSent) {
       res.status(500).json({

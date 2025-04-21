@@ -30,7 +30,7 @@
   "license": "ISC",
   "description": "A collection of MCP test servers including working servers (ping, resource, combined, env-echo) and test failure cases (broken-tool, crash-on-startup)",
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.9.0",
+    "@modelcontextprotocol/sdk": "^1.10.1",
     "cors": "^2.8.5",
     "express": "^4.21.2"
   },
