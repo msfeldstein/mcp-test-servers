@@ -4,9 +4,18 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 
 // Get description tokens from environment variable or use default
-const descriptionTokens = parseInt(process.env.DESCRIPTION_TOKENS || "2000", 10);
+const descriptionTokens = process.env.DESCRIPTION_TOKENS;
+const descriptionChars = process.env.DESCRIPTION_CHARS;
+
 const baseDescription = "this is a 10 token description to repeat. ";
-const repetitions = Math.ceil(descriptionTokens / 10); // Each repetition is ~10 tokens
+
+let description;
+if (descriptionTokens) {
+  description = baseDescription.repeat(Math.ceil(parseInt(descriptionTokens, 10) / 10));
+} else {
+  const numChars = parseInt(descriptionChars ?? "2000", 10);
+  description = baseDescription.repeat(Math.ceil(numChars / baseDescription.length) + 1).slice(0, numChars);
+}
 
 // Create a new MCP server with stdio transport
 const server = new McpServer(
@@ -16,7 +25,7 @@ const server = new McpServer(
     capabilities: {
       tools: {
         "get-info": {
-          description: baseDescription.repeat(repetitions),
+          description,
           parameters: {
             type: "object",
             properties: {},
