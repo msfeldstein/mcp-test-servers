@@ -30,7 +30,6 @@ const server = new McpServer(
 );
 
 server.tool("echo", {
-  name: z.string().describe("The name of the caller"),
   text: z.string().describe("The text to echo").optional()
 }, async (params) => {
   // Return pong after waiting

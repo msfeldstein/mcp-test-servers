@@ -4,25 +4,29 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
 
-// Create a new MCP server with stdio transport and an enum type parameter
+// Create a new MCP server with stdio transport and a tool for searching Stripe documentation
 const server = new McpServer(
   {
     name: "enum-param-server",
     version: "1.0.0",
     capabilities: {
       tools: {
-        "choose-color": {
-          description: "A tool that returns the selected color",
+        "search_documentation": {
+          description: "Search the Stripe documentation for the given question and language.\n\n    It takes two arguments:\n      ...",
           parameters: {
             type: "object",
             properties: {
-              color: {
+              question: {
                 type: "string",
-                enum: ["red", "green", "blue"],
-                description: "The color to choose"
+                description: "The user question about integrating with Stripe will be used to search the documentation."
+              },
+              language: {
+                type: "string",
+                enum: ["dotnet", "go", "java", "node", "php", "ruby", "python", "curl"],
+                description: "The programming language to search for in the the documentation."
               }
             },
-            required: ["color"]
+            required: ["question"]
           }
         }
       }
@@ -30,18 +34,19 @@ const server = new McpServer(
   }
 );
 
-// Register the choose-color tool with a zod enum schema
+// Register the search_documentation tool with a zod enum schema
 server.tool(
-  "choose-color",
+  "search_documentation",
   {
-    color: z.enum(["red", "green", "blue"]).describe("The color to choose")
+    question: z.string().describe("The user question about integrating with Stripe will be used to search the documentation."),
+    language: z.enum(["dotnet", "go", "java", "node", "php", "ruby", "python", "curl"]).describe("The programming language to search for in the the documentation.")
   },
   async (params) => {
     return {
       content: [
         {
           type: "text",
-          text: `You chose the color ${params.color}`
+          text: `Question: ${params.question}` + (params.language ? `, Language: ${params.language}` : "")
         }
       ]
     };
@@ -51,4 +56,4 @@ server.tool(
 // Connect to the transport and start the server
 await server.connect(new StdioServerTransport());
 
-// This server demonstrates a tool with an enum type parameter 
+// This server demonstrates a search_documentation tool with enum type parameter. 
