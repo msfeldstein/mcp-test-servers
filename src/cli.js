@@ -3,7 +3,7 @@
 const serverType = process.argv[2];
 
 if (!serverType) {
-  console.error('Please specify a server type - ping, resource, combined, broken-tool, crash-on-startup, env-check, env-echo, many-resources, duplicate-names, image, big-response, date, time, many-tools, named, long-description, enum-param, number-param');
+  console.error('Please specify a server type - ping, resource, combined, broken-tool, crash-on-startup, env-check, env-echo, many-resources, duplicate-names, image, big-response, date, time, many-tools, named, long-description, enum-param, number-param, all-types');
   console.error('Example: npx @msfeldstein/mcp-test-servers ping');
   process.exit(1);
 }
@@ -72,8 +72,11 @@ switch (serverType) {
   case 'number-param':
     import('./number-param-server.js');
     break;
+  case 'all-types':
+    import('./all-types-server.js');
+    break;
   default:
     console.error('Unknown server type:', serverType);
-    console.error('Available types: ping, resource, combined, broken-tool, crash-on-startup, env-check, env-echo, many-resources, duplicate-names, image, big-response, date, time, many-tools, named, long-description, enum-param, number-param');
+    console.error('Available types: ping, resource, combined, broken-tool, crash-on-startup, env-check, env-echo, many-resources, duplicate-names, image, big-response, date, time, many-tools, named, long-description, enum-param, number-param, all-types');
     process.exit(1);
 } 

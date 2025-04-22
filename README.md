@@ -22,6 +22,7 @@ A collection of test servers implementing the Model Context Protocol (MCP).
 - `bad-param`: Server with an intentionally malformed parameter name
 - `stderr`: Server that logs to stderr
 - `optional-param`: Server with optional parameters
+- `all-types`: Server that demonstrates various parameter types supported by MCP
 
 ## Usage
 
@@ -146,3 +147,10 @@ The optional-param server demonstrates parameter optionality:
   - `name` (required): The name of the caller
   - `text` (optional): The text to echo
 - Returns: The provided text or "No message sent" if no text was provided
+
+### All Types Server
+The all-types server demonstrates various parameter types supported by MCP:
+- Tool: `all_types_tool`
+- Parameters: Includes required and optional parameters covering string, integer, number (float), boolean, array (string, number), object (with nested types), and enum.
+- Returns: A JSON string representation of the received parameters.
+- Useful for testing client-side handling of different parameter types.
