@@ -38,7 +38,7 @@ const server = new McpServer(
 );
 
 // Register the get-info tool
-server.tool("get-info", baseDescription.repeat(repetitions), async (params) => {
+server.tool("get-info", description, async (params) => {
   return {
     content: [{
       type: "text",
