@@ -64,7 +64,3 @@ server.tool("parse_bugsnag_error_url", BugsnagUrlParamsSchema, async (params) =>
 
 // Connect to the transport and start the server
 await server.connect(new StdioServerTransport());
-
-console.log("Bugsnag Parser Server started");
-
-// This server implements a tool to parse Bugsnag error URLs. 
