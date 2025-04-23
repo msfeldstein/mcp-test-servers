@@ -40,10 +40,11 @@ const server = new McpServer(
 
 // Register the parse_bugsnag_error_url tool with a parameter shape, not a full Zod object
 server.tool("parse_bugsnag_error_url", {
-  error_url: z.string().regex(
-    /^https:\/\/app\.bugsnag\.com\/([^/]+)\/([^/]+)\/errors\/([^/]+)/,
-    "URL must match the pattern https://app.bugsnag.com/{org}/{project}/errors/{error_id}"
-  ).describe("a URL in the form https://app.bugsnag.com/{org}/{project}/errors/{error_id}")
+  error_url: z.object({
+    type: "string",
+    pattern: 'https:\\\\/\\\\/app.bugsnag.com\\\\/(?<org_slug>.*)\\\\/(?<project_slug>.*)\\\\/errors\\\\/(?<error_id>.*)',
+    description: "a URL in the form https://app.bugsnag.com/{org}/{project}/errors/{error_id}"
+  }).describe("a URL in the form https://app.bugsnag.com/{org}/{project}/errors/{error_id}")
 }, async (params) => {
   const url = params.error_url;
   const match = url.match(/^https:\/\/app\.bugsnag\.com\/([^/]+)\/([^/]+)\/errors\/([^/]+)/);
