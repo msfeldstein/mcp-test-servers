@@ -4,7 +4,9 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
 
-// server is an MCP server that can generate a random string of a specified length
+/**
+ * MCP server that can generate a random string of a specified length
+ */
 const server = new McpServer(
   {
     name: "big-response-server",
@@ -29,7 +31,11 @@ const server = new McpServer(
   }
 );
 
-// generateRandomString is a helper function that generates a random string of a specified length
+/**
+ * Generates a random string of a specified length
+ * @param {number} length - The length of the random string to generate
+ * @returns {string} The generated random string
+ */
 function generateRandomString(length) {
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   let result = '';
@@ -39,7 +45,9 @@ function generateRandomString(length) {
   return result;
 }
 
-// register the generate_big_response tool 
+/**
+ * Register the generate_big_response tool
+ */
 server.tool("generate_big_response", {
   stringLength: z.number().int().positive().describe("The length of the random string to generate")
 }, async (params) => {
