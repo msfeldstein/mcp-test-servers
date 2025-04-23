@@ -1,6 +1,6 @@
 {
   "name": "@msfeldstein/mcp-test-servers",
-  "version": "1.1.10",
+  "version": "1.1.11",
   "type": "module",
   "bin": {
     "mcp-test-servers": "./src/cli.js"
