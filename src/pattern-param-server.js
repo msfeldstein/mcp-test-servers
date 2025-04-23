@@ -15,10 +15,25 @@ const BugsnagUrlParamsSchema = z.object({
 // Create a new MCP server with stdio transport
 const server = new McpServer(
   {
-    name: "pattern-param-server",
+    name: "pattern-param-server-2",
     version: "1.0.0",
     capabilities: {
-      tools: { }
+      tools: {
+        "parse_bugsnag_error_url": {
+          description: "This tool will take a URL of an error in Bugsnag, and will parse out the organization slug, project slug, and error ID. Returns fields for org_slug, project_slug, and error_id",
+          parameters: {
+            type: "object",
+            properties: {
+              error_url: {
+                type: "string",
+                pattern: "https:.*",
+                description: "a URL in the form https://app.bugsnag.com/{org}/{project}/errors/{error_id}"
+              }
+            },
+            required: ["error_url"]
+          }
+        },
+      }
     }
   }
 );
