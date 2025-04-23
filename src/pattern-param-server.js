@@ -15,7 +15,7 @@ const BugsnagUrlParamsSchema = z.object({
 // Create a new MCP server with stdio transport
 const server = new McpServer(
   {
-    name: "pattern-param-server-2",
+    name: "pattern-param-server",
     version: "1.0.0",
     capabilities: {
       tools: {
@@ -26,13 +26,11 @@ const server = new McpServer(
             properties: {
               error_url: {
                 type: "string",
-                pattern: "https:.*",
+                pattern: "^https:.*",
                 description: "a URL in the form https://app.bugsnag.com/{org}/{project}/errors/{error_id}"
               }
             },
-            required: ["error_url"],
-            additionalProperties: false,
-            $schema: "http://json-schema.org/draft-07/schema#"
+            required: ["error_url"]
           }
         }
       }
