@@ -19,22 +19,7 @@ const server = new McpServer(
     name: "pattern-param-server-bad",
     version: "1.0.0",
     capabilities: {
-      tools: {
-        "parse_bugsnag_error_url": {
-          description: "This tool will take a URL of an error in Bugsnag, and will parse out the organization slug, project slug, and error ID. Returns fields for org_slug, project_slug, and error_id",
-          parameters: {
-            type: "object",
-            properties: {
-              error_url: {
-                type: "string",
-                pattern: "https:.*", // Kept original pattern for description, Zod regex handles validation
-                description: "a URL in the form https://app.bugsnag.com/{org}/{project}/errors/{error_id}"
-              }
-            },
-            required: ["error_url"]
-          }
-        },
-      }
+      tools: { }
     }
   }
 );
