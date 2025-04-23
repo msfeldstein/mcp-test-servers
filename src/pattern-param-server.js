@@ -15,7 +15,7 @@ const BugsnagUrlParamsSchema = z.object({
 // Create a new MCP server with stdio transport
 const server = new McpServer(
   {
-    name: "pattern-param-server-bad",
+    name: "pattern-param-server",
     version: "1.0.0",
     capabilities: {
       tools: { }
