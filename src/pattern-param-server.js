@@ -30,9 +30,11 @@ const server = new McpServer(
                 description: "a URL in the form https://app.bugsnag.com/{org}/{project}/errors/{error_id}"
               }
             },
-            required: ["error_url"]
+            required: ["error_url"],
+            additionalProperties: false,
+            $schema: "http://json-schema.org/draft-07/schema#"
           }
-        },
+        }
       }
     }
   }
@@ -54,9 +56,9 @@ server.tool("parse_bugsnag_error_url", BugsnagUrlParamsSchema, async (params) =>
     content: [{
       type: "json",
       json: {
-        org_slug: org_slug,
-        project_slug: project_slug,
-        error_id: error_id
+        org_slug,
+        project_slug,
+        error_id
       }
     }]
   };
