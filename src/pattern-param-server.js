@@ -6,11 +6,10 @@ import { z } from "zod";
 
 // Define the Zod schema based on the JSON schema
 const BugsnagUrlParamsSchema = z.object({
-  error_url: z.object({
-    type: z.string(),
-    pattern: "https:.*",
-    description: "a URL in the form https://app.bugsnag.com/{org}/{project}/errors/{error_id}"
-  })
+  error_url: z.string().url().regex(
+    /^https:\/\/app\.bugsnag\.com\/([^/]+)\/([^/]+)\/errors\/([^/]+)/,
+    "URL must match the pattern https://app.bugsnag.com/{org}/{project}/errors/{error_id}"
+  ).describe("a URL in the form https://app.bugsnag.com/{org}/{project}/errors/{error_id}")
 });
 
 // Create a new MCP server with stdio transport
