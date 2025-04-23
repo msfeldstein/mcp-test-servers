@@ -42,7 +42,7 @@ const server = new McpServer(
 server.tool("parse_bugsnag_error_url", {
   error_url: z.object({
     type: "string",
-    pattern: 'https:\\\\/\\\\/app.bugsnag.com\\\\/(?<org_slug>.*)\\\\/(?<project_slug>.*)\\\\/errors\\\\/(?<error_id>.*)',
+    pattern: 'https:\\\\/\\\\\/app.bugsnag.com\\\\/(?<org_slug>.*)\\\\/(?<project_slug>.*)\\\\/errors\\\\/((?<error_id>.*)',
     description: "a URL in the form https://app.bugsnag.com/{org}/{project}/errors/{error_id}"
   }).describe("a URL in the form https://app.bugsnag.com/{org}/{project}/errors/{error_id}")
 }, async (params) => {
