@@ -2,6 +2,43 @@
 
 A collection of test servers implementing the Model Context Protocol (MCP).
 
+## Development Setup
+
+### Node.js Version Management
+
+This project includes an `.nvmrc` file that specifies the recommended Node.js version. To automatically use the correct Node.js version:
+
+1. Make sure you have [nvm (Node Version Manager)](https://github.com/nvm-sh/nvm) installed
+2. Run `nvm use` manually when entering the project directory, or
+3. Set up automatic version switching by sourcing the included `auto-nvm.sh` script in your shell profile:
+
+```bash
+# Add to your ~/.zshrc or ~/.bashrc
+source /path/to/mcp-test-servers/auto-nvm.sh
+```
+
+This will automatically run `nvm use` whenever you change directories to a folder with an `.nvmrc` file.
+
+### Package Management
+
+This project **requires** [pnpm](https://pnpm.io/) for package management. **Always use pnpm instead of npm or yarn** when working with this project.
+
+```bash
+# Install dependencies
+pnpm install
+
+# Run a script
+pnpm run ping
+
+# Add a dependency
+pnpm add package-name
+
+# Use a package without installing
+pnpm dlx package-name
+```
+
+The `.npmrc` file in this project is configured to enforce pnpm for package management. Additionally, the `auto-nvm.sh` script automatically creates aliases that redirect `npm` and `yarn` commands to use `pnpm` instead when you're in this project directory.
+
 ## Available Servers
 
 - `ping`: A simple server that responds with 'pong'
@@ -29,17 +66,17 @@ A collection of test servers implementing the Model Context Protocol (MCP).
 To run a server, use:
 
 ```bash
-npx @msfeldstein/mcp-test-servers <server-type>
+pnpm dlx @msfeldstein/mcp-test-servers <server-type>
 ```
 
 Example:
 ```bash
-npx @msfeldstein/mcp-test-servers time
+pnpm dlx @msfeldstein/mcp-test-servers time
 ```
 
 For the named server, you can set a custom name using the MCP_SERVER_NAME environment variable:
 ```bash
-MCP_SERVER_NAME="my-custom-server" npx @msfeldstein/mcp-test-servers named
+MCP_SERVER_NAME="my-custom-server" pnpm dlx @msfeldstein/mcp-test-servers named
 ```
 
 ## Server Details

@@ -1,0 +1,18 @@
+{
+    "name": "Node.js Development Container",
+    "build": {
+        "dockerfile": "Dockerfile",
+        "context": ".."
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "dbaeumer.vscode-eslint",
+                "esbenp.prettier-vscode"
+            ]
+        }
+    },
+    "remoteUser": "root",
+    "updateContentCommand": "./.devcontainer/update-content.sh",
+    "postStartCommand": "chmod +x .devcontainer/update-content.sh"
+} 
