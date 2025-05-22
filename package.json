@@ -6,21 +6,10 @@
     "mcp-test-servers": "./src/cli.js"
   },
   "scripts": {
-    "ping": "node src/cli.js ping",
-    "resource": "node src/cli.js resource",
-    "combined": "node src/cli.js combined",
-    "broken-tool": "node src/cli.js broken-tool",
-    "crash-on-startup": "node src/cli.js crash-on-startup",
-    "env-check": "node src/cli.js env-check",
-    "env-echo": "node src/cli.js env-echo",
-    "many-resources": "node src/cli.js many-resources",
-    "duplicate-names": "node src/cli.js duplicate-names",
-    "many-tools": "node src/cli.js many-tools",
     "oauth-ping": "node src/oauth-ping-server.js",
     "http-ping": "node src/http-ping-server.js",
     "sse-ping": "node src/sse-ping-server.js",
     "sse-notification-stream": "node src/sse-notification-stream.js",
-    "all-types": "node src/cli.js all-types",
     "bump-and-publish": "git commit -a -m 'publish' && npm version patch && git push && npm publish"
   },
   "keywords": [

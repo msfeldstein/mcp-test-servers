@@ -96,7 +96,7 @@ app.delete('/mcp', async (req, res) => {
 const PORT = 3001;
 setupServer().then(() => {
   app.listen(PORT, () => {
-    console.log(`MCP Streamable HTTP Server listening on port ${PORT}`);
+    console.log(`MCP Streamable HTTP Server listening at http://localhost:${PORT}/mcp`);
   });
 }).catch(error => {
   console.error('Failed to set up the server:', error);

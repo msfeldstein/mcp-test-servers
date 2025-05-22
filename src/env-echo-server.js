@@ -15,7 +15,7 @@ const server = new McpServer(
 );
 
 // Register a tool that returns all environment variables
-server.tool("echo_env", async (params) => {
+server.tool("env_echo", async (params) => {
   // Convert process.env object to a formatted string
   const envString = Object.entries(process.env)
     .map(([key, value]) => `${key}=${value}`)
