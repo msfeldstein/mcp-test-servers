@@ -3,7 +3,7 @@
 const serverType = process.argv[2];
 
 if (!serverType) {
-  console.error('Please specify a server type - ping, resource, combined, broken-tool, crash-on-startup, env-check, env-echo, many-resources, duplicate-names, image, big-response, date, time, many-tools, named, long-description, enum-param, number-param, all-types, pattern-param, stdout');
+  console.error('Please specify a server type - ping, resource, combined, broken-tool, crash-on-startup, env-check, env-echo, many-resources, duplicate-names, image, big-response, date, time, many-tools, named, long-description, enum-param, number-param, all-types, pattern-param, stdout, roots-echo');
   console.error('Example: npx @msfeldstein/mcp-test-servers ping');
   process.exit(1);
 }
@@ -68,6 +68,9 @@ switch (serverType) {
     break;
   case 'resource':
     import('./resource-server.js');
+    break;
+  case 'roots-echo':
+    import('./roots-echo-server.js');
     break;
   case 'stderr':
     import('./stderr-server.js');

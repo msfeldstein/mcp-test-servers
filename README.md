@@ -28,6 +28,7 @@ npx -y @msfeldstein/mcp-test-servers <server>
 - `pattern-param`: Tool has a parameter with a pattern match
 - `ping`: A simple server that responds with 'pong'
 - `resource`: Resource server implementation
+- `roots-echo`: Server that demonstrates MCP roots functionality by echoing back the roots provided by the client
 - `stderr`: Server that logs to stderr
 - `stdout` Servert that illegally logs to stdout
 
