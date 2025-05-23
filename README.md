@@ -22,6 +22,7 @@ npx -y @msfeldstein/mcp-test-servers <server>
 - `long-description`: Publicize a very long description configured via env var
 - `many-resources`: Server with multiple resources
 - `many-tools`: Server with 100 tools that each return 'ack'
+- `math`: Server with basic math function tools (add, subtract, multiply, divide, power, sqrt, factorial)
 - `named`: Server with configurable name via MCP_SERVER_NAME environment variable
 - `number-param`: Tool with a number parameter
 - `optional-param`: Tool has an optional param
