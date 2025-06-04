@@ -1,19 +1,25 @@
 #!/usr/bin/env node
 
-
-
+// Import required dependencies from the MCP SDK and Zod for schema validation
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
 
-// Define the schema for the nested object parameter
+// Define a nested object schema that will be used as part of the main parameters
+// This demonstrates how to handle complex nested data structures
 const nestedObjectSchema = z.object({
   nestedString: z.string().describe("A nested string property"),
   nestedNumber: z.number().describe("A nested number property"),
   nestedBoolean: z.boolean().describe("A nested boolean property"),
 });
 
-// Define the schema for the tool parameters using Zod
+// Define the main parameter schema using Zod
+// This schema demonstrates all the supported parameter types in MCP:
+// - Basic types (string, number, boolean)
+// - Arrays
+// - Nested objects
+// - Enums
+// - Optional parameters
 const allTypesParamsSchema = z.object({
   requiredString: z.string().describe("A required string parameter"),
   requiredInteger: z.number().int().describe("A required integer parameter"),
@@ -27,7 +33,8 @@ const allTypesParamsSchema = z.object({
   optionalNumber: z.number().optional().describe("An optional number parameter"),
 });
 
-// Create a new MCP server instance
+// Initialize the MCP server with metadata and tool capabilities
+// The server is configured to expose a single tool that demonstrates all parameter types
 const server = new McpServer(
   {
     name: "all-types-server",
@@ -43,7 +50,9 @@ const server = new McpServer(
   }
 );
 
-// Register the tool with the defined Zod schema
+// Register the tool implementation
+// This handler simply echoes back the received parameters to demonstrate
+// that they were correctly parsed according to the schema
 server.tool(
   "all_types_tool",
   allTypesParamsSchema,
@@ -60,5 +69,6 @@ server.tool(
   }
 );
 
-// Connect to the transport and start the server
+// Start the server using stdio transport
+// This allows the server to communicate with clients through standard input/output
 await server.connect(new StdioServerTransport());

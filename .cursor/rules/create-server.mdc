@@ -1,7 +1,6 @@
 ---
-description: 
-globs: 
-alwaysApply: true
+globs: *.ts,*.js
+alwaysApply: false
 ---
 To create a new server, copy the [ping-server.js](mdc:src/ping-server.js) for the pattern and use the MCP SDK documentation
 Make sure to add it to [cli.js](mdc:src/cli.js) and [README.md](mdc:README.md)

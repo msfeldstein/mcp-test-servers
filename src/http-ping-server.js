@@ -29,6 +29,7 @@ const server = new McpServer(
 
 // Register the ping tool
 server.tool("ping", async (params) => {
+  console.log("Ping tool called with headers:", params.headers, params);
   return {
     content: [{
       type: "text",
@@ -51,6 +52,7 @@ const setupServer = async () => {
 
 app.post('/mcp', async (req, res) => {
   console.log('Received MCP request:', req.body);
+  console.log('User-Agent:', req.get("User-Agent"));
   try {
       await transport.handleRequest(req, res, req.body);
   } catch (error) {
@@ -70,6 +72,7 @@ app.post('/mcp', async (req, res) => {
 
 app.get('/mcp', async (req, res) => {
   console.log('Received GET MCP request');
+  console.log('User-Agent:', req.get("User-Agent"));
   res.writeHead(405).end(JSON.stringify({
     jsonrpc: "2.0",
     error: {
@@ -82,6 +85,7 @@ app.get('/mcp', async (req, res) => {
 
 app.delete('/mcp', async (req, res) => {
   console.log('Received DELETE MCP request');
+  console.log('User-Agent:', req.get("User-Agent"));
   res.writeHead(405).end(JSON.stringify({
     jsonrpc: "2.0",
     error: {

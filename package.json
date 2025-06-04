@@ -10,6 +10,7 @@
     "http-ping": "node src/http-ping-server.js",
     "sse-ping": "node src/sse-ping-server.js",
     "sse-notification-stream": "node src/sse-notification-stream.js",
+    "dynamic-tools": "node src/dynamic-tools-server.js",
     "bump-and-publish": "git commit -a -m 'publish' && npm version patch && git push && npm publish"
   },
   "keywords": [
