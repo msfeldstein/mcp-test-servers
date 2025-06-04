@@ -78,6 +78,9 @@ switch (serverType) {
   case 'stdout':
     import('./stdout-server.js');
     break;
+  case 'dynamic-tools':
+    import('./dynamic-tools-server.js');
+    break;
   default:
     console.error('Unknown server type:', serverType);
     process.exit(1);
