@@ -29,7 +29,6 @@ server.tool("long-running-task", async (extra) => {
 
     console.warn("Calling tool", extra)
   const { sendNotification } = extra;
-  other
 
   const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
   
