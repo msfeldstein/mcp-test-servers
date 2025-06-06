@@ -25,8 +25,9 @@ const server = new McpServer(
 );
 
 // Register the long-running-task tool
-server.tool("long-running-task", async (extra, other, ...args) => {
-    console.warn("EXTRAS", extra, other, args)
+server.tool("long-running-task", async (extra) => {
+
+    console.warn("Calling tool", extra)
   const { sendNotification } = extra;
 
   const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
@@ -38,7 +39,7 @@ server.tool("long-running-task", async (extra, other, ...args) => {
   // Send progress notifications every 2 seconds, adding 10% each time
   for (let progress = 10; progress <= 100; progress += 10) {
     await sleep(2000); // Wait 2 seconds
-    
+    console.warn("PROGRESS", progress)
     // Only send progress notifications if we have a progress token
     if (progressToken) {
       await sendNotification({
