@@ -32,7 +32,8 @@ server.tool("long-running-task", async (extra, other, ...args) => {
   const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
   
   // Check if the client provided a progress token
-  const progressToken = extra.sessionId?._meta?.progressToken;
+  const progressToken = extra._meta?.progressToken;
+  console.warn("PROGRESS TOKEN", progressToken)
   
   // Send progress notifications every 2 seconds, adding 10% each time
   for (let progress = 10; progress <= 100; progress += 10) {
