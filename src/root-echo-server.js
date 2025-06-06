@@ -32,7 +32,7 @@ server.tool("root-echo", async (params) => {
   return {
     content: [{
       type: "text",
-      text: roots.roots.map(root => root.name).join(", ")
+      text: JSON.stringify(roots, null, 2)
     }]
   };
 });
