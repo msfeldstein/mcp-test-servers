@@ -25,8 +25,8 @@ const server = new McpServer(
 );
 
 // Register the long-running-task tool
-server.tool("long-running-task", async (extra) => {
-    console.warn("EXTRAS", extra, arguments)
+server.tool("long-running-task", async (extra, other, ...args) => {
+    console.warn("EXTRAS", extra, other, args)
   const { sendNotification } = extra;
 
   const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
