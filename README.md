@@ -20,6 +20,7 @@ npx -y @msfeldstein/mcp-test-servers <server>
 - `env-echo`: Echoes the environment variables
 - `image`: Tool returns an image of sonic the hedgehog
 - `long-description`: Publicize a very long description configured via env var
+- `long-running`: Server that sends progress notifications every 2 seconds for a 20-second task
 - `many-resources`: Server with multiple resources
 - `many-tools`: Server with 100 tools that each return 'ack'
 - `math`: Server with basic math function tools (add, subtract, multiply, divide, power, sqrt, factorial)
