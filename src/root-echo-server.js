@@ -26,6 +26,7 @@ const server = new McpServer(
 
 // Register the ping tool
 server.tool("root-echo", async (params) => {
+  console.warn("root-echo", params)
   const roots = await params.sendRequest("roots/list")
   console.warn("roots", roots)
   return {
