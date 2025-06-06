@@ -29,6 +29,7 @@ server.tool("long-running-task", async (extra) => {
 
     console.warn("Calling tool", extra)
   const { sendNotification } = extra;
+  other
 
   const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
   
@@ -37,8 +38,8 @@ server.tool("long-running-task", async (extra) => {
   console.warn("PROGRESS TOKEN", progressToken)
   
   // Send progress notifications every 2 seconds, adding 10% each time
-  for (let progress = 10; progress <= 100; progress += 10) {
-    await sleep(2000); // Wait 2 seconds
+  for (let progress = 0; progress <= 100; progress += 20) {
+    await sleep(1000); // Wait 2 seconds
     console.warn("PROGRESS", progress)
     // Only send progress notifications if we have a progress token
     if (progressToken) {
