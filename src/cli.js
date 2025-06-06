@@ -86,6 +86,9 @@ switch (serverType) {
   case 'dynamic-tools':
     import('./dynamic-tools-server.js');
     break;
+  case 'root-echo':
+    import('./root-echo-server.js');
+    break;
   default:
     console.error('Unknown server type:', serverType);
     process.exit(1);
