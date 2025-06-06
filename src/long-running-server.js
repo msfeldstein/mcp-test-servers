@@ -1,28 +1,21 @@
 #!/usr/bin/env node
 
-import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";import {
   CallToolRequestSchema,
   ListToolsRequestSchema,
 } from "@modelcontextprotocol/sdk/types.js";
 
-const server = new McpServer(
+const server = new Server(
   {
-    name: "long-running-server",
+    name: "example-servers/everything",
     version: "1.0.0",
+  },
+  {
     capabilities: {
-      tools: {
-        "long-running-task": {
-          description: "A long-running task that sends progress notifications every 2 seconds",
-          parameters: {
-            type: "object",
-            properties: {},
-            required: []
-          }
-        }
-      }
-    }
+      tools: {},
+    },
   }
 );
 
@@ -53,7 +46,7 @@ const LongRunningOperationJSONSchema = {
 }
 
 
-server.server.setRequestHandler(ListToolsRequestSchema, async () => {
+server.setRequestHandler(ListToolsRequestSchema, async () => {
   const tools = [
     {
       name: "long-running-task",
@@ -66,7 +59,7 @@ server.server.setRequestHandler(ListToolsRequestSchema, async () => {
   return { tools };
 });
 
-server.server.setRequestHandler(CallToolRequestSchema, async (request) => {
+server.setRequestHandler(CallToolRequestSchema, async (request) => {
   const { name, arguments: args } = request.params;
 
   if (name === "long-running-task") {
