@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+import { version } from './package.json' with { type: "json" };
+console.warn("MCP Test Servers version ", version);
 
 const serverType = process.argv[2];
 
