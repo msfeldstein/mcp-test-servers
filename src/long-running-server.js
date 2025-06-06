@@ -53,7 +53,7 @@ const LongRunningOperationJSONSchema = {
 }
 
 
-server.setRequestHandler(ListToolsRequestSchema, async () => {
+server.server.setRequestHandler(ListToolsRequestSchema, async () => {
   const tools = [
     {
       name: "long-running-task",
@@ -66,7 +66,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
   return { tools };
 });
 
-server.setRequestHandler(CallToolRequestSchema, async (request) => {
+server.server.setRequestHandler(CallToolRequestSchema, async (request) => {
   const { name, arguments: args } = request.params;
 
   if (name === "long-running-task") {
