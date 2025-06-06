@@ -2,7 +2,7 @@
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import { z, zodToJsonSchema } from "zod";
+import { z } from "zod";
 
 // Create a new MCP server with stdio transport
 const server = new McpServer(
@@ -33,13 +33,31 @@ const LongRunningOperationSchema = z.object({
 });
 
 
+const LongRunningOperationJSONSchema = {
+  "type": "object",
+  "properties": {
+    "duration": {
+      "type": "number",
+      "description": "Duration of the operation in seconds",
+      "default": 10
+    },
+    "steps": {
+      "type": "number",
+      "description": "Number of steps in the operation",
+      "default": 5
+    }
+  },
+  "required": []
+}
+
+
 server.setRequestHandler(ListToolsRequestSchema, async () => {
   const tools = [
     {
       name: "long-running-task",
       description:
         "Demonstrates a long running operation with progress updates",
-      inputSchema: zodToJsonSchema(LongRunningOperationSchema)
+      inputSchema: LongRunningOperationJSONSchema
     }
   ];
 
