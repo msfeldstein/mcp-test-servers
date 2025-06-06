@@ -2,7 +2,7 @@
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import { z } from "zod";
+import { z, zodToJsonSchema } from "zod";
 
 // Create a new MCP server with stdio transport
 const server = new McpServer(
@@ -24,40 +24,63 @@ const server = new McpServer(
   }
 );
 
-// Register the long-running-task tool
-server.tool("long-running-task", async (extra) => {
+const LongRunningOperationSchema = z.object({
+  duration: z
+    .number()
+    .default(10)
+    .describe("Duration of the operation in seconds"),
+  steps: z.number().default(5).describe("Number of steps in the operation"),
+});
 
-  console.warn("Calling tool", extra)
-  const { sendNotification } = extra;
 
-  const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+server.setRequestHandler(ListToolsRequestSchema, async () => {
+  const tools = [
+    {
+      name: "long-running-task",
+      description:
+        "Demonstrates a long running operation with progress updates",
+      inputSchema: zodToJsonSchema(LongRunningOperationSchema)
+    }
+  ];
 
-  // Check if the client provided a progress token
-  const progressToken = extra._meta?.progressToken;
-  console.warn("PROGRESS TOKEN", progressToken)
+  return { tools };
+});
 
-  // Send progress notifications every 2 seconds, adding 10% each time
-  for (let progress = 0; progress <= 100; progress += 20) {
-    await sleep(1000); // Wait 2 seconds
-    console.warn("PROGRESS", progress)
-    // Only send progress notifications if we have a progress token
-    await sendNotification({
-      method: "notifications/progress",
-      params: {
-        progrsess: progress,
-        total: 100,
-        message: `Processing... ${progress}% complete`
+server.setRequestHandler(CallToolRequestSchema, async (request) => {
+  const { name, arguments: args } = request.params;
+
+  if (name === "long-running-task") {
+    const validatedArgs = LongRunningOperationSchema.parse(args);
+    const { duration, steps } = validatedArgs;
+    const stepDuration = duration / steps;
+    const progressToken = request.params._meta?.progressToken;
+
+    for (let i = 1; i < steps + 1; i++) {
+      await new Promise((resolve) =>
+        setTimeout(resolve, stepDuration * 1000)
+      );
+
+      if (progressToken !== undefined) {
+        await server.notification({
+          method: "notifications/progress",
+          params: {
+            progress: i,
+            total: steps,
+            progressToken,
+          },
+        });
       }
-    });
-  }
+    }
 
-  // Return "done" when complete
-  return {
-    content: [{
-      type: "text",
-      text: "done"
-    }]
-  };
+    return {
+      content: [
+        {
+          type: "text",
+          text: `Long running operation completed. Duration: ${duration} seconds, Steps: ${steps}.`,
+        },
+      ],
+    };
+  }
 });
 
 // Connect to the transport and start the server
