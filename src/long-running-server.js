@@ -27,6 +27,14 @@ const LongRunningOperationSchema = z.object({
   steps: z.number().default(5).describe("Number of steps in the operation"),
 });
 
+const LongRunningOperationWithNoTotalSchema = z.object({
+  duration: z
+    .number()
+    .default(10)
+    .describe("Duration of the operation in seconds"),
+  steps: z.number().default(5).describe("Number of steps in the operation"),
+});
+
 
 const LongRunningOperationJSONSchema = {
   "type": "object",
@@ -45,6 +53,22 @@ const LongRunningOperationJSONSchema = {
   "required": []
 }
 
+const LongRunningOperationWithNoTotalJSONSchema = {
+  "type": "object",
+  "properties": {
+    "duration": {
+      "type": "number",
+      "description": "Duration of the operation in seconds",
+      "default": 10
+    },
+    "steps": {
+      "type": "number",
+      "description": "Number of steps in the operation",
+      "default": 5
+    }
+  },
+  "required": []
+}
 
 server.setRequestHandler(ListToolsRequestSchema, async () => {
   const tools = [
@@ -53,6 +77,12 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
       description:
         "Demonstrates a long running operation with progress updates",
       inputSchema: LongRunningOperationJSONSchema
+    },
+    {
+      name: "long-running-task-with-no-total",
+      description:
+        "Demonstrates a long running operation with progress updates",
+      inputSchema: LongRunningOperationWithNoTotalJSONSchema
     }
   ];
 
@@ -68,11 +98,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     const stepDuration = duration / steps;
     const progressToken = request.params._meta?.progressToken;
 
-    for (let i = 1; i < steps + 1; i++) {
-      await new Promise((resolve) =>
-        setTimeout(resolve, stepDuration * 1000)
-      );
-
+    for (let i = 0; i < steps + 1; i++) {
       if (progressToken !== undefined) {
         await server.notification({
           method: "notifications/progress",
@@ -83,6 +109,40 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           },
         });
       }
+      await new Promise((resolve) =>
+        setTimeout(resolve, stepDuration * 1000)
+      );
+    }
+
+    return {
+      content: [
+        {
+          type: "text",
+          text: `Long running operation completed. Duration: ${duration} seconds, Steps: ${steps}.`,
+        },
+      ],
+    };
+  }
+
+  if (name === "long-running-task-with-no-total") {
+    const validatedArgs = LongRunningOperationWithNoTotalSchema.parse(args);
+    const { duration, steps } = validatedArgs;
+    const stepDuration = duration / steps;
+    const progressToken = request.params._meta?.progressToken;
+
+    for (let i = 0; i < steps + 1; i++) {
+      if (progressToken !== undefined) {
+        await server.notification({
+          method: "notifications/progress",
+          params: {
+            progress: i,
+            progressToken,
+          },
+        });
+      }
+      await new Promise((resolve) =>
+        setTimeout(resolve, stepDuration * 1000)
+      );
     }
 
     return {

@@ -1,6 +1,4 @@
 #!/usr/bin/env node
-import pkg from '../package.json' assert { type: 'json' };
-console.warn("MCP Test Servers version ", pkg.version);
 
 const serverType = process.argv[2];
 

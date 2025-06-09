@@ -24,7 +24,7 @@ const server = new McpServer(
 );
 
 // Register the ping tool
-server.tool("ping", async (params) => {
+server.tool("ping", "A simple tool that returns 'pong'", async (params) => {
   return {
     content: [{
       type: "text",
