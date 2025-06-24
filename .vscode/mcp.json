@@ -1,0 +1,11 @@
+{
+    "servers": {
+        "repo prompt": {
+            "type": "stdio",
+            "command": "/Applications/Repo Prompt.app/Contents/MacOS/repoprompt-mcp",
+            "args": [
+                "Prompt.app/Contents/MacOS/repoprompt-mcp"
+            ]
+        }
+    }
+}

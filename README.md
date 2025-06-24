@@ -29,10 +29,11 @@ npx -y @msfeldstein/mcp-test-servers <server>
 - `optional-param`: Tool has an optional param
 - `pattern-param`: Tool has a parameter with a pattern match
 - `ping`: A simple server that responds with 'pong'
+- `prompts`: Server with two prompts - one static greeting and one dynamic story generator with character name and location parameters
 - `resource`: Resource server implementation
 - `roots-echo`: Server that demonstrates MCP roots functionality by echoing back the roots provided by the client
 - `stderr`: Server that logs to stderr
-- `stdout` Servert that illegally logs to stdout
+- `structured-output`: Demonstrates structuredContent responses with a simple echo tool
 
 # Remote Servers
 

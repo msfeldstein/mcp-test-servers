@@ -11,6 +11,15 @@ const server = new McpServer(
   }
 );
 
+server.tool(
+  "many-resources-tool",
+  "Many Resources Tool",
+  "This tool returns many resources",
+  async () => ({
+    resources: []
+  })
+);
+
 // Generate 200 resources
 for (let i = 1; i <= 600; i++) {
   server.resource(
