@@ -33,6 +33,7 @@ npx -y @msfeldstein/mcp-test-servers <server>
 - `resource`: Resource server implementation
 - `roots-echo`: Server that demonstrates MCP roots functionality by echoing back the roots provided by the client
 - `stderr`: Server that logs to stderr
+- `string-escape`: Demonstrates proper handling of string arguments with spaces, quotes, and escape characters
 - `structured-output`: Demonstrates structuredContent responses with a simple echo tool
 
 # Remote Servers
