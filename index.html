@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCP Test Servers - One-Click Install for Cursor</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #0a0a0a;
+            color: #e4e4e7;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem 0;
+            border-bottom: 1px solid #27272a;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #60a5fa 0%, #3730a3 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #a1a1aa;
+        }
+        
+        .info-section {
+            background: #18181b;
+            border: 1px solid #27272a;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .info-section h2 {
+            margin-bottom: 1rem;
+            color: #60a5fa;
+        }
+        
+        .info-section p {
+            color: #a1a1aa;
+            margin-bottom: 0.5rem;
+        }
+        
+        .info-section code {
+            background: #27272a;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+        
+        .servers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .server-card {
+            background: #18181b;
+            border: 1px solid #27272a;
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .server-card:hover {
+            border-color: #3730a3;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .server-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #f4f4f5;
+        }
+        
+        .server-description {
+            color: #a1a1aa;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .install-button {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, #3730a3 0%, #60a5fa 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            margin-top: 0.5rem;
+        }
+        
+        .install-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 5px 20px rgba(55, 48, 163, 0.4);
+        }
+        
+        .install-button svg {
+            margin-right: 0.5rem;
+        }
+        
+        .command-line {
+            background: #0a0a0a;
+            border: 1px solid #27272a;
+            border-radius: 6px;
+            padding: 0.5rem 1rem;
+            margin-top: 1rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            color: #60a5fa;
+            overflow-x: auto;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 4rem;
+            padding: 2rem 0;
+            border-top: 1px solid #27272a;
+            color: #71717a;
+        }
+        
+        footer a {
+            color: #60a5fa;
+            text-decoration: none;
+        }
+        
+        footer a:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .servers-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>MCP Test Servers</h1>
+            <p class="subtitle">One-Click Install for Cursor</p>
+        </header>
+        
+        <div class="info-section">
+            <h2>🚀 Quick Start</h2>
+            <p>Click any install button below to add an MCP server to Cursor instantly.</p>
+            <p>Each server demonstrates different MCP capabilities and features.</p>
+            <p>Alternatively, run any server via command line:</p>
+            <div class="command-line">npx @msfeldstein/mcp-test-servers &lt;server-name&gt;</div>
+        </div>
+        
+        <div id="servers-container">
+            <!-- Server cards will be dynamically generated here -->
+        </div>
+        
+        <footer>
+            <p>Built with ❤️ for the MCP community</p>
+            <p><a href="https://github.com/msfeldstein/mcp-test-servers" target="_blank">View on GitHub</a> | <a href="https://modelcontextprotocol.com" target="_blank">Learn about MCP</a></p>
+        </footer>
+    </div>
+    
+    <script>
+        // Server definitions with descriptions
+        const servers = [
+            { name: 'ping', description: 'Simple ping/pong server for basic connectivity testing' },
+            { name: 'resource', description: 'Demonstrates resource serving capabilities' },
+            { name: 'combined', description: 'Combines multiple MCP features in one server' },
+            { name: 'all-types', description: 'Tests all parameter types and data structures' },
+            { name: 'bad-param', description: 'Tests parameter validation and error handling' },
+            { name: 'big-response', description: 'Tests handling of large response payloads' },
+            { name: 'broken-tool', description: 'Simulates tool failures for error testing' },
+            { name: 'crash-on-startup', description: 'Tests crash recovery and error handling' },
+            { name: 'directory-resource', description: 'Serves directory contents as resources' },
+            { name: 'duplicate-names', description: 'Tests handling of duplicate tool/resource names' },
+            { name: 'dynamic-tools', description: 'Demonstrates dynamic tool registration' },
+            { name: 'enum-param', description: 'Tests enum parameter types' },
+            { name: 'env-check', description: 'Checks environment variables' },
+            { name: 'env-echo', description: 'Echoes environment configuration' },
+            { name: 'file-ops', description: 'File operation capabilities' },
+            { name: 'image', description: 'Image handling and processing' },
+            { name: 'long-description', description: 'Tests handling of long descriptions' },
+            { name: 'long-running', description: 'Tests long-running operations' },
+            { name: 'many-resources', description: 'Tests handling many resources' },
+            { name: 'many-tools', description: 'Tests handling many tools' },
+            { name: 'math', description: 'Mathematical operations server' },
+            { name: 'named', description: 'Named server with custom identity' },
+            { name: 'number-param', description: 'Tests numeric parameter handling' },
+            { name: 'optional-param', description: 'Tests optional parameter handling' },
+            { name: 'pattern-param', description: 'Tests pattern matching parameters' },
+            { name: 'prompts', description: 'Interactive prompt capabilities' },
+            { name: 'root-echo', description: 'Echo server at root level' },
+            { name: 'shell-exec', description: 'Shell command execution server' },
+            { name: 'stderr', description: 'Tests stderr output handling' },
+            { name: 'stdout', description: 'Tests stdout output handling' },
+            { name: 'structured-output', description: 'Tests structured data output' }
+        ];
+        
+        // Function to encode config for Cursor deeplink
+        function encodeConfig(config) {
+            // JSON stringify, then base64 encode
+            const jsonStr = JSON.stringify(config);
+            const base64 = btoa(jsonStr);
+            // Replace + with -, / with _, and remove =
+            return base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
+        }
+        
+        // Function to generate install link
+        function generateInstallLink(serverName) {
+            const config = {
+                command: "npx",
+                args: ["-y", "@msfeldstein/mcp-test-servers", serverName]
+            };
+            
+            const encodedConfig = encodeConfig(config);
+            return `cursor://anysphere.cursor-deeplink/mcp/install?name=mcp-test-${serverName}&config=${encodedConfig}`;
+        }
+        
+        // Generate server cards
+        function renderServers() {
+            const container = document.getElementById('servers-container');
+            const grid = document.createElement('div');
+            grid.className = 'servers-grid';
+            
+            servers.forEach(server => {
+                const card = document.createElement('div');
+                card.className = 'server-card';
+                
+                const installLink = generateInstallLink(server.name);
+                
+                card.innerHTML = `
+                    <h3 class="server-name">${server.name}</h3>
+                    <p class="server-description">${server.description}</p>
+                    <a href="${installLink}" class="install-button">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8 1V11M8 11L4 7M8 11L12 7M2 13H14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Install in Cursor
+                    </a>
+                    <div class="command-line">
+                        npx @msfeldstein/mcp-test-servers ${server.name}
+                    </div>
+                `;
+                
+                grid.appendChild(card);
+            });
+            
+            container.appendChild(grid);
+        }
+        
+        // Render on page load
+        document.addEventListener('DOMContentLoaded', renderServers);
+    </script>
+</body>
+</html>
