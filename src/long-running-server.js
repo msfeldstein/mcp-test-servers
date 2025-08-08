@@ -70,6 +70,23 @@ const LongRunningOperationWithNoTotalJSONSchema = {
   "required": []
 }
 
+const LongRunningOperationWithMessageJSONSchema = {
+  "type": "object",
+  "properties": {
+    "duration": {
+      "type": "number",
+      "description": "Duration of the operation in seconds",
+      "default": 10
+    },
+    "steps": {
+      "type": "number",
+      "description": "Number of steps in the operation",
+      "default": 5
+    }
+  },
+  "required": []
+}
+
 server.setRequestHandler(ListToolsRequestSchema, async () => {
   const tools = [
     {
@@ -83,6 +100,12 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
       description:
         "Demonstrates a long running operation with progress updates",
       inputSchema: LongRunningOperationWithNoTotalJSONSchema
+    },
+    {
+      name: "long-running-task-with-message",
+      description:
+        "Demonstrates a long running operation with progress updates and messages",
+      inputSchema: LongRunningOperationWithMessageJSONSchema
     }
   ];
 
@@ -150,6 +173,49 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         {
           type: "text",
           text: `Long running operation completed. Duration: ${duration} seconds, Steps: ${steps}.`,
+        },
+      ],
+    };
+  }
+
+  if (name === "long-running-task-with-message") {
+    const validatedArgs = LongRunningOperationSchema.parse(args);
+    const { duration, steps } = validatedArgs;
+    const stepDuration = duration / steps;
+    const progressToken = request.params._meta?.progressToken;
+
+    const stepMessages = [
+      "Initializing operation...",
+      "Processing data...",
+      "Analyzing results...",
+      "Optimizing performance...",
+      "Finalizing output...",
+      "Operation complete!"
+    ];
+
+    for (let i = 0; i < steps + 1; i++) {
+      if (progressToken !== undefined) {
+        const message = stepMessages[Math.min(i, stepMessages.length - 1)];
+        await server.notification({
+          method: "notifications/progress",
+          params: {
+            progress: i,
+            total: steps,
+            message,
+            progressToken,
+          },
+        });
+      }
+      await new Promise((resolve) =>
+        setTimeout(resolve, stepDuration * 10000)
+      );
+    }
+
+    return {
+      content: [
+        {
+          type: "text",
+          text: `Long running operation with messages completed. Duration: ${duration} seconds, Steps: ${steps}.`,
         },
       ],
     };
