@@ -3,7 +3,7 @@
 const serverType = process.argv[2];
 
 if (!serverType) {
-  console.error('Please specify a server type - ping, resource, combined, broken-tool, crash-on-startup, env-check, env-echo, many-resources, duplicate-names, image, big-response, date, time, many-tools, named, long-description, enum-param, number-param, all-types, pattern-param, stdout, math, long-running, structured-output, prompts, broken-schema, missing-type, broken-schema-fastmcp, missing-type-fastmcp, headers, raw-broken');
+  console.error('Please specify a server type - ping, resource, combined, broken-tool, crash-on-startup, env-check, env-echo, many-resources, duplicate-names, image, big-response, date, time, many-tools, named, long-description, enum-param, number-param, all-types, pattern-param, stdout, math, long-running, structured-output, prompts, broken-schema, missing-type, broken-schema-fastmcp, missing-type-fastmcp, headers, raw-broken, session-management');
   console.error('Example: npx @msfeldstein/mcp-test-servers ping');
   process.exit(1);
 }
@@ -94,6 +94,9 @@ switch (serverType) {
   case 'resource':
     import('./resource-server.js');
     break;
+  case 'session-management':
+    import('./session-management-server.js');
+    break;
   case 'stderr':
     import('./stderr-server.js');
     break;
@@ -118,6 +121,9 @@ switch (serverType) {
     import('child_process').then(({ spawn }) => {
       spawn('python3', ['./src/raw-broken-mcp-server.py'], { stdio: 'inherit' });
     });
+    break;
+  case 'elicitation':
+    import('./elicitation-server.js');
     break;
   default:
     console.error('Unknown server type:', serverType);

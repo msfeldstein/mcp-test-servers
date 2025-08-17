@@ -17,6 +17,7 @@ npx -y @msfeldstein/mcp-test-servers <server>
 - `crash-on-startup`: Server that crashes on startup
 - `combined`: Server with tools and resources
 - `duplicate-names`: Server with duplicate names for resources
+- `elicitation`: Server demonstrating MCP elicitation feature - requests user information (name, age, contact details, preferences) through structured forms
 - `enum-param`: Tool has enum string parameter
 - `env-check`: Checks for SHOULD_RUN environment variable being passed properly
 - `env-echo`: Echoes the environment variables
@@ -38,6 +39,7 @@ npx -y @msfeldstein/mcp-test-servers <server>
 - `raw-broken`: Raw JSON-RPC MCP server with genuinely broken schemas (no framework validation)
 - `resource`: Resource server implementation
 - `roots-echo`: Server that demonstrates MCP roots functionality by echoing back the roots provided by the client
+- `session-management`: HTTP server that implements MCP session management behavior - assigns session IDs, requires them in requests, returns 404 for terminated sessions
 - `stderr`: Server that logs to stderr
 - `structured-output`: Demonstrates structuredContent responses with a simple echo tool
 
