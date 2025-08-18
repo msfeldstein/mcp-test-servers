@@ -125,10 +125,10 @@ server.tool(
   }
 );
 
-// Enum elicitation tool
+// Enum elicitation tool with raw values
 server.tool(
   "ask-favorite-color",
-  "Ask the user to select their favorite color from a list",
+  "Ask the user to select their favorite color from a list (raw enum values)",
   {},
   async () => {
     const result = await server.server.elicitInput({
@@ -140,7 +140,7 @@ server.tool(
             type: "string",
             title: "Favorite Color",
             description: "Select your favorite color from the options",
-            enum: ["Red", "Blue", "Green", "Yellow", "Purple", "Orange", "Pink", "Black", "White", "Gray"]
+            enum: ["red", "blue", "green", "yellow", "purple", "orange", "pink", "black", "white", "gray"]
           }
         },
         required: ["favorite_color"]
@@ -160,6 +160,62 @@ server.tool(
       content: [{
         type: "text",
         text: "No color selected."
+      }]
+    };
+  }
+);
+
+// Enum elicitation tool with enumNames for better UX
+server.tool(
+  "ask-programming-language",
+  "Ask the user to select their favorite programming language with user-friendly display names",
+  {},
+  async () => {
+    const result = await server.server.elicitInput({
+      message: "What's your favorite programming language?",
+      requestedSchema: {
+        type: "object",
+        properties: {
+          programming_language: {
+            type: "string",
+            title: "Programming Language",
+            description: "Select your favorite programming language",
+            enum: ["js", "py", "rs", "go", "java", "cpp", "cs", "rb", "php", "swift"],
+            enumNames: ["JavaScript", "Python", "Rust", "Go", "Java", "C++", "C#", "Ruby", "PHP", "Swift"]
+          }
+        },
+        required: ["programming_language"]
+      }
+    });
+
+    if (result.action === "accept" && result.content?.programming_language) {
+      const languageMap = {
+        "js": "JavaScript",
+        "py": "Python", 
+        "rs": "Rust",
+        "go": "Go",
+        "java": "Java",
+        "cpp": "C++",
+        "cs": "C#",
+        "rb": "Ruby",
+        "php": "PHP",
+        "swift": "Swift"
+      };
+      
+      const displayName = languageMap[result.content.programming_language] || result.content.programming_language;
+      
+      return {
+        content: [{
+          type: "text",
+          text: `Excellent choice! ${displayName} is a powerful language. The actual value returned was: "${result.content.programming_language}"`
+        }]
+      };
+    }
+
+    return {
+      content: [{
+        type: "text",
+        text: "No programming language selected."
       }]
     };
   }
