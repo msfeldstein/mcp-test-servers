@@ -198,7 +198,6 @@ server.tool(
         "cpp": "C++",
         "cs": "C#",
         "rb": "Ruby",
-        "php": "PHP",
         "swift": "Swift"
       };
       
