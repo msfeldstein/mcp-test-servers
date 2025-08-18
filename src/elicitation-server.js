@@ -221,6 +221,90 @@ server.tool(
   }
 );
 
+// Delete project elicitation tool with realistic fake project names
+server.tool(
+  "delete-project",
+  "Delete a project",
+  {},
+  async () => {
+    const result = await server.server.elicitInput({
+      message: "⚠️ Which project would you like to delete? This action cannot be undone!",
+      requestedSchema: {
+        type: "object",
+        properties: {
+          project_name: {
+            type: "string",
+            title: "Project to Delete",
+            description: "Select the project you want to permanently delete",
+            enum: [
+              "ecommerce-backend",
+              "mobile-app-frontend", 
+              "data-analytics-dashboard",
+              "user-authentication-service",
+              "payment-processing-api",
+              "inventory-management-system",
+              "customer-support-chatbot",
+              "marketing-automation-tools",
+              "social-media-integration",
+              "reporting-microservice",
+              "file-storage-service",
+              "notification-system"
+            ],
+            enumNames: [
+              "E-commerce Backend (Node.js)",
+              "Mobile App Frontend (React Native)",
+              "Data Analytics Dashboard (Python/Django)",
+              "User Authentication Service (Go)",
+              "Payment Processing API (Java Spring)",
+              "Inventory Management System (C# .NET)",
+              "Customer Support Chatbot (Python/FastAPI)",
+              "Marketing Automation Tools (Ruby on Rails)",
+              "Social Media Integration (Node.js/Express)",
+              "Reporting Microservice (Rust)",
+              "File Storage Service (AWS Lambda)",
+              "Notification System (Kafka/Scala)"
+            ]
+          }
+        },
+        required: ["project_name"]
+      }
+    });
+
+    if (result.action === "accept" && result.content?.project_name) {
+      const projectMap = {
+        "ecommerce-backend": "E-commerce Backend (Node.js)",
+        "mobile-app-frontend": "Mobile App Frontend (React Native)",
+        "data-analytics-dashboard": "Data Analytics Dashboard (Python/Django)",
+        "user-authentication-service": "User Authentication Service (Go)",
+        "payment-processing-api": "Payment Processing API (Java Spring)",
+        "inventory-management-system": "Inventory Management System (C# .NET)",
+        "customer-support-chatbot": "Customer Support Chatbot (Python/FastAPI)",
+        "marketing-automation-tools": "Marketing Automation Tools (Ruby on Rails)",
+        "social-media-integration": "Social Media Integration (Node.js/Express)",
+        "reporting-microservice": "Reporting Microservice (Rust)",
+        "file-storage-service": "File Storage Service (AWS Lambda)",
+        "notification-system": "Notification System (Kafka/Scala)"
+      };
+      
+      const displayName = projectMap[result.content.project_name] || result.content.project_name;
+      
+      return {
+        content: [{
+          type: "text",
+          text: `🗑️ Project "${displayName}" has been successfully deleted!\n\n⚠️ All associated resources, databases, and deployments have been removed.\n\nProject ID: ${result.content.project_name}\n\nThis action cannot be undone. If you need to restore this project, you'll need to recreate it from your backup or version control system.`
+        }]
+      };
+    }
+
+    return {
+      content: [{
+        type: "text",
+        text: "❌ Project deletion cancelled. No project was selected."
+      }]
+    };
+  }
+);
+
 
 // Connect to the transport and start the server
 await server.connect(new StdioServerTransport());
