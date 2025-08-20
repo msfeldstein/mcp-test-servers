@@ -56,6 +56,9 @@
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255,255,255,0.2);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
         }
 
         .server-card:hover {
@@ -74,6 +77,7 @@
             color: #4a5568;
             margin-bottom: 1.5rem;
             line-height: 1.5;
+            flex-grow: 1;
         }
 
         .install-button {
@@ -111,6 +115,17 @@
             color: #2d3748;
             margin-bottom: 1rem;
             word-break: break-all;
+            margin-top: auto;
+        }
+
+        .card-content {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .card-footer {
+            margin-top: auto;
         }
 
         .footer {
@@ -183,12 +198,16 @@
             const installLink = generateInstallLink(server.name);
             
             card.innerHTML = `
-                <div class="server-name">${server.displayName}</div>
-                <div class="server-description">${server.description}</div>
-                <div class="npm-command">npx -y @msfeldstein/mcp-test-servers ${server.name}</div>
-                <a href="${installLink}" class="install-button">
-                    📦 Install in Cursor
-                </a>
+                <div class="card-content">
+                    <div class="server-name">${server.displayName}</div>
+                    <div class="server-description">${server.description}</div>
+                    <div class="card-footer">
+                        <div class="npm-command">npx -y @msfeldstein/mcp-test-servers ${server.name}</div>
+                        <a href="${installLink}" class="install-button">
+                            📦 Install in Cursor
+                        </a>
+                    </div>
+                </div>
             `;
             
             return card;
