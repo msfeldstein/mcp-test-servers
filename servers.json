@@ -1,0 +1,228 @@
+{
+  "servers": [
+    {
+      "name": "all-types",
+      "displayName": "All Types",
+      "description": "Demonstrates various tool parameter types supported by MCP",
+      "file": "./all-types-server.js",
+      "type": "node"
+    },
+    {
+      "name": "bad-param",
+      "displayName": "Bad Param",
+      "description": "Server with an intentionally malformed parameter name",
+      "file": "./bad-param-server.js",
+      "type": "node"
+    },
+    {
+      "name": "big-response",
+      "displayName": "Big Response",
+      "description": "Server that returns large responses",
+      "file": "./big-response-server.js",
+      "type": "node"
+    },
+    {
+      "name": "broken-tool",
+      "displayName": "Broken Tool",
+      "description": "Server with intentionally broken tool",
+      "file": "./broken-tool-server.js",
+      "type": "node"
+    },
+    {
+      "name": "crash-on-startup",
+      "displayName": "Crash on Startup",
+      "description": "Server that crashes on startup",
+      "file": "./crash-on-startup-server.js",
+      "type": "node"
+    },
+    {
+      "name": "combined",
+      "displayName": "Combined",
+      "description": "Server with tools and resources",
+      "file": "./combined-server.js",
+      "type": "node"
+    },
+    {
+      "name": "duplicate-names",
+      "displayName": "Duplicate Names",
+      "description": "Server with duplicate names for resources",
+      "file": "./duplicate-names-server.js",
+      "type": "node"
+    },
+    {
+      "name": "dynamic-tools",
+      "displayName": "Dynamic Tools",
+      "description": "Server with dynamically generated tools",
+      "file": "./dynamic-tools-server.js",
+      "type": "node"
+    },
+    {
+      "name": "elicitation",
+      "displayName": "Elicitation",
+      "description": "Server demonstrating MCP elicitation feature - requests user information through structured forms",
+      "file": "./elicitation-server.js",
+      "type": "node"
+    },
+    {
+      "name": "enum-param",
+      "displayName": "Enum Param",
+      "description": "Tool has enum string parameter",
+      "file": "./enum-param-server.js",
+      "type": "node"
+    },
+    {
+      "name": "env-check",
+      "displayName": "Env Check",
+      "description": "Checks for SHOULD_RUN environment variable being passed properly",
+      "file": "./env-check-server.js",
+      "type": "node"
+    },
+    {
+      "name": "env-echo",
+      "displayName": "Env Echo",
+      "description": "Echoes the environment variables",
+      "file": "./env-echo-server.js",
+      "type": "node"
+    },
+    {
+      "name": "image",
+      "displayName": "Image",
+      "description": "Tool returns an image of sonic the hedgehog",
+      "file": "./image-server.js",
+      "type": "node"
+    },
+    {
+      "name": "instructions",
+      "displayName": "Instructions",
+      "description": "Server with instructions and a makeRequest tool that returns success for value 42",
+      "file": "./instructions-server.js",
+      "type": "node"
+    },
+    {
+      "name": "long-description",
+      "displayName": "Long Description",
+      "description": "Publicize a very long description configured via env var",
+      "file": "./long-description-server.js",
+      "type": "node"
+    },
+    {
+      "name": "long-running",
+      "displayName": "Long Running",
+      "description": "Server that sends progress notifications every 2 seconds for a 20-second task",
+      "file": "./long-running-server.js",
+      "type": "node"
+    },
+    {
+      "name": "many-resources",
+      "displayName": "Many Resources",
+      "description": "Server with multiple resources",
+      "file": "./many-resources-server.js",
+      "type": "node"
+    },
+    {
+      "name": "many-tools",
+      "displayName": "Many Tools",
+      "description": "Server with 100 tools that each return 'ack'",
+      "file": "./many-tools-server.js",
+      "type": "node"
+    },
+    {
+      "name": "math",
+      "displayName": "Math",
+      "description": "Server with basic math function tools (add, subtract, multiply, divide, power, sqrt, factorial)",
+      "file": "./math-server.js",
+      "type": "node"
+    },
+    {
+      "name": "missing-type",
+      "displayName": "Missing Type",
+      "description": "Server with tools missing the required 'type' field in parameter schemas",
+      "file": "./missing-type-server.js",
+      "type": "node"
+    },
+    {
+      "name": "named",
+      "displayName": "Named",
+      "description": "Server with configurable name via MCP_SERVER_NAME environment variable",
+      "file": "./named-server.js",
+      "type": "node"
+    },
+    {
+      "name": "number-param",
+      "displayName": "Number Param",
+      "description": "Tool with a number parameter",
+      "file": "./number-param-server.js",
+      "type": "node"
+    },
+    {
+      "name": "optional-param",
+      "displayName": "Optional Param",
+      "description": "Tool has an optional param",
+      "file": "./optional-param-server.js",
+      "type": "node"
+    },
+    {
+      "name": "pattern-param",
+      "displayName": "Pattern Param",
+      "description": "Tool has a parameter with a pattern match",
+      "file": "./pattern-param-server.js",
+      "type": "node"
+    },
+    {
+      "name": "ping",
+      "displayName": "Ping",
+      "description": "A simple server that responds with 'pong'",
+      "file": "./ping-server.js",
+      "type": "node"
+    },
+    {
+      "name": "prompts",
+      "displayName": "Prompts",
+      "description": "Server with two prompts - one static greeting and one dynamic story generator",
+      "file": "./prompts-server.js",
+      "type": "node"
+    },
+    {
+      "name": "resource",
+      "displayName": "Resource",
+      "description": "Resource server implementation",
+      "file": "./resource-server.js",
+      "type": "node"
+    },
+    {
+      "name": "root-echo",
+      "displayName": "Root Echo",
+      "description": "Server that demonstrates MCP roots functionality by echoing back the roots provided by the client",
+      "file": "./root-echo-server.js",
+      "type": "node"
+    },
+    {
+      "name": "session-management",
+      "displayName": "Session Management",
+      "description": "HTTP server that implements MCP session management behavior",
+      "file": "./session-management-server.js",
+      "type": "node"
+    },
+    {
+      "name": "stderr",
+      "displayName": "Stderr",
+      "description": "Server that logs to stderr",
+      "file": "./stderr-server.js",
+      "type": "node"
+    },
+    {
+      "name": "stdout",
+      "displayName": "Stdout",
+      "description": "Server that logs to stdout",
+      "file": "./stdout-server.js",
+      "type": "node"
+    },
+    {
+      "name": "structured-output",
+      "displayName": "Structured Output",
+      "description": "Demonstrates structuredContent responses with a simple echo tool",
+      "file": "./structured-output-server.js",
+      "type": "node"
+    }
+  ]
+}

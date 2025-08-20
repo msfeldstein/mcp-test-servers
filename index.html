@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCP Test Servers Gallery</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .server-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .server-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+        }
+
+        .server-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 0.5rem;
+        }
+
+        .server-description {
+            color: #4a5568;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        .install-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+        }
+
+        .install-button:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .install-button:active {
+            transform: scale(0.98);
+        }
+
+        .npm-command {
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 0.5rem;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.9rem;
+            color: #2d3748;
+            margin-bottom: 1rem;
+            word-break: break-all;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 3rem;
+            color: white;
+            opacity: 0.8;
+        }
+
+        .footer a {
+            color: white;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 MCP Test Servers Gallery</h1>
+            <p>One-click install buttons for Model Context Protocol test servers</p>
+        </div>
+
+        <div class="gallery" id="gallery">
+            <!-- Server cards will be generated here -->
+        </div>
+
+        <div class="footer">
+            <p>
+                Built for <a href="https://github.com/msfeldstein/mcp-test-servers" target="_blank">MCP Test Servers</a> |
+                Install with <a href="https://cursor.sh" target="_blank">Cursor</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        let servers = [];
+
+        function generateInstallLink(serverName) {
+            // Create the MCP configuration
+            const config = {
+                command: "npx",
+                args: ["-y", "@msfeldstein/mcp-test-servers", serverName]
+            };
+            
+            // Base64 encode the configuration
+            const encodedConfig = btoa(JSON.stringify(config));
+            
+            // Generate the Cursor deeplink
+            return `cursor://anysphere.cursor-deeplink/mcp/install?name=${encodeURIComponent(serverName)}&config=${encodedConfig}`;
+        }
+
+        function createServerCard(server) {
+            const card = document.createElement('div');
+            card.className = 'server-card';
+            
+            const installLink = generateInstallLink(server.name);
+            
+            card.innerHTML = `
+                <div class="server-name">${server.displayName}</div>
+                <div class="server-description">${server.description}</div>
+                <div class="npm-command">npx -y @msfeldstein/mcp-test-servers ${server.name}</div>
+                <a href="${installLink}" class="install-button">
+                    📦 Install in Cursor
+                </a>
+            `;
+            
+            return card;
+        }
+
+        // Load servers from JSON and generate gallery
+        async function loadServersAndGenerateGallery() {
+            try {
+                const response = await fetch('./servers.json');
+                const data = await response.json();
+                servers = data.servers;
+                generateGallery();
+            } catch (error) {
+                console.error('Failed to load servers:', error);
+                // Fallback: show error message
+                const gallery = document.getElementById('gallery');
+                gallery.innerHTML = '<div style="color: white; text-align: center; grid-column: 1/-1;">Failed to load servers. Please try refreshing the page.</div>';
+            }
+        }
+
+        // Generate all server cards
+        function generateGallery() {
+            const gallery = document.getElementById('gallery');
+            
+            servers.forEach(server => {
+                const card = createServerCard(server);
+                gallery.appendChild(card);
+            });
+        }
+
+        // Initialize the gallery when the page loads
+        document.addEventListener('DOMContentLoaded', loadServersAndGenerateGallery);
+    </script>
+</body>
+</html>

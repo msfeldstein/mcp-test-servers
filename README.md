@@ -2,6 +2,12 @@
 
 A collection of test servers implementing the Model Context Protocol (MCP).
 
+## 🚀 Quick Install Gallery
+
+Visit our **[GitHub Pages Gallery](https://msfeldstein.github.io/mcp-test-servers/)** for one-click install buttons that work directly with Cursor!
+
+## Manual Installation
+
 ```
 npx -y @msfeldstein/mcp-test-servers <server>
 ```
@@ -22,6 +28,7 @@ npx -y @msfeldstein/mcp-test-servers <server>
 - `env-check`: Checks for SHOULD_RUN environment variable being passed properly
 - `env-echo`: Echoes the environment variables
 - `headers`: FastMCP server that safely returns HTTP header information
+- `instructions`: Server with instructions and a makeRequest tool that returns success for value 42
 - `image`: Tool returns an image of sonic the hedgehog
 - `long-description`: Publicize a very long description configured via env var
 - `long-running`: Server that sends progress notifications every 2 seconds for a 20-second task
