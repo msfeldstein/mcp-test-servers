@@ -3,6 +3,9 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 
+// Get tool count from environment variable or default to 100
+const TOOL_COUNT = parseInt(process.env.TOOL_COUNT || '100', 10);
+
 // Create a new MCP server with stdio transport
 const server = new McpServer(
   {
@@ -10,7 +13,7 @@ const server = new McpServer(
     version: "1.0.0",
     capabilities: {
       tools: Object.fromEntries(
-        Array.from({ length: 100 }, (_, i) => [
+        Array.from({ length: TOOL_COUNT }, (_, i) => [
           `tool_${i + 1}`,
           {
             description: `Tool ${i + 1} that returns 'ack'`,
@@ -26,8 +29,8 @@ const server = new McpServer(
   }
 );
 
-// Register all 100 tools
-for (let i = 1; i <= 100; i++) {
+// Register all tools
+for (let i = 1; i <= TOOL_COUNT; i++) {
   server.tool(`tool_${i}`, async () => {
     return {
       content: [{

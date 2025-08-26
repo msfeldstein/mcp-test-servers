@@ -2,15 +2,16 @@
 
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import { z } from "zod";import {
+import { z } from "zod";
+import {
   CallToolRequestSchema,
   ListToolsRequestSchema,
 } from "@modelcontextprotocol/sdk/types.js";
 
 const server = new Server(
   {
-    name: "example-servers/everything",
-    version: "1.0.0",
+    name: "example-servers/long-running",
+    version: "1.2.0",
   },
   {
     capabilities: {
@@ -22,17 +23,21 @@ const server = new Server(
 const LongRunningOperationSchema = z.object({
   duration: z
     .number()
-    .default(10)
-    .describe("Duration of the operation in seconds"),
-  steps: z.number().default(5).describe("Number of steps in the operation"),
+    .min(1)
+    .max(600)
+    .default(15)
+    .describe("Duration of the operation in seconds (1-600)"),
+  steps: z.number().min(1).max(50).default(8).describe("Number of steps in the operation (1-50)"),
 });
 
 const LongRunningOperationWithNoTotalSchema = z.object({
   duration: z
     .number()
-    .default(10)
-    .describe("Duration of the operation in seconds"),
-  steps: z.number().default(5).describe("Number of steps in the operation"),
+    .min(1)
+    .max(600)
+    .default(15)
+    .describe("Duration of the operation in seconds (1-600)"),
+  steps: z.number().min(1).max(50).default(8).describe("Number of steps in the operation (1-50)"),
 });
 
 
@@ -41,13 +46,13 @@ const LongRunningOperationJSONSchema = {
   "properties": {
     "duration": {
       "type": "number",
-      "description": "Duration of the operation in seconds",
-      "default": 10
+      "description": "Duration of the operation in seconds (1-600)",
+      "default": 15
     },
     "steps": {
       "type": "number",
-      "description": "Number of steps in the operation",
-      "default": 5
+      "description": "Number of steps in the operation (1-50)",
+      "default": 8
     }
   },
   "required": []
@@ -58,13 +63,13 @@ const LongRunningOperationWithNoTotalJSONSchema = {
   "properties": {
     "duration": {
       "type": "number",
-      "description": "Duration of the operation in seconds",
-      "default": 10
+      "description": "Duration of the operation in seconds (1-600)",
+      "default": 15
     },
     "steps": {
       "type": "number",
-      "description": "Number of steps in the operation",
-      "default": 5
+      "description": "Number of steps in the operation (1-50)",
+      "default": 8
     }
   },
   "required": []
@@ -75,13 +80,13 @@ const LongRunningOperationWithMessageJSONSchema = {
   "properties": {
     "duration": {
       "type": "number",
-      "description": "Duration of the operation in seconds",
-      "default": 10
+      "description": "Duration of the operation in seconds (1-600)",
+      "default": 15
     },
     "steps": {
       "type": "number",
-      "description": "Number of steps in the operation",
-      "default": 5
+      "description": "Number of steps in the operation (1-50)",
+      "default": 8
     }
   },
   "required": []
@@ -92,13 +97,13 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
     {
       name: "long-running-task",
       description:
-        "Demonstrates a long running operation with progress updates",
+        "Executes a long-running task with real-time progress tracking",
       inputSchema: LongRunningOperationJSONSchema
     },
     {
       name: "long-running-task-with-no-total",
       description:
-        "Demonstrates a long running operation with progress updates",
+        "Executes a long-running task with real-time progress tracking",
       inputSchema: LongRunningOperationWithNoTotalJSONSchema
     },
     {
@@ -185,12 +190,13 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     const progressToken = request.params._meta?.progressToken;
 
     const stepMessages = [
-      "Initializing operation...",
-      "Processing data...",
-      "Analyzing results...",
-      "Optimizing performance...",
-      "Finalizing output...",
-      "Operation complete!"
+      "🚀 Initializing operation...",
+      "📊 Processing data...",
+      "🔍 Analyzing results...",
+      "⚡ Optimizing performance...",
+      "📝 Generating reports...",
+      "🎯 Finalizing output...",
+      "✅ Operation complete!"
     ];
 
     for (let i = 0; i < steps + 1; i++) {
@@ -207,7 +213,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         });
       }
       await new Promise((resolve) =>
-        setTimeout(resolve, stepDuration * 10000)
+        setTimeout(resolve, stepDuration * 1000)
       );
     }
 

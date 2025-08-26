@@ -2,6 +2,8 @@
 
 /**
  * @fileoverview A combined MCP server implementation that provides a ping tool and a hello world resource.
+ * This server demonstrates multiple capabilities including tools and resources in a single MCP server.
+ * Updated with enhanced functionality and better documentation.
  */
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";

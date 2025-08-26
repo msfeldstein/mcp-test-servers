@@ -148,6 +148,20 @@
       "type": "node"
     },
     {
+      "name": "notion-gemini-repro",
+      "displayName": "Notion Gemini Repro",
+      "description": "Server with complex nested schema that breaks on some models (Notion API reproduction case) - inline schema",
+      "file": "./notion-gemini-repro-server.js",
+      "type": "node"
+    },
+    {
+      "name": "notion-gemini-repro-raw",
+      "displayName": "Notion Gemini Repro Raw",
+      "description": "Server with complex nested schema that breaks on some models (Notion API reproduction case) - exact raw schema object",
+      "file": "./notion-gemini-repro-raw-server.js",
+      "type": "node"
+    },
+    {
       "name": "number-param",
       "displayName": "Number Param",
       "description": "Tool with a number parameter",
@@ -187,6 +201,13 @@
       "displayName": "Resource",
       "description": "Resource server implementation",
       "file": "./resource-server.js",
+      "type": "node"
+    },
+    {
+      "name": "resource-lister",
+      "displayName": "Resource Lister",
+      "description": "Server that publishes 5 resources and has a tool to list them",
+      "file": "./resource-lister-server.js",
       "type": "node"
     },
     {
