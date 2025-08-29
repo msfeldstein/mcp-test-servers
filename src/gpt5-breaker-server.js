@@ -30,7 +30,7 @@ const server = new McpServer(
                 description: "Database name to execute the query against"
               }
             },
-            required: ["query", "database"]
+            required: ["query", "database", "params"]
           }
         }
       }
@@ -41,7 +41,7 @@ const server = new McpServer(
 // Register the execute-sql tool with the provided schema
 server.tool("execute-sql", {
   query: z.string().min(1, 'SQL query is required'),
-  params: z.array(z.any()).optional(),
+  params: z.array(z.any()),
   database: z.string().min(1, 'Database name is required')
 }, async (params) => {
   // Simulate SQL execution (this is a test server)
