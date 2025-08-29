@@ -148,20 +148,6 @@
       "type": "node"
     },
     {
-      "name": "notion-gemini-repro",
-      "displayName": "Notion Gemini Repro",
-      "description": "Server with complex nested schema that breaks on some models (Notion API reproduction case) - inline schema",
-      "file": "./notion-gemini-repro-server.js",
-      "type": "node"
-    },
-    {
-      "name": "notion-gemini-repro-raw",
-      "displayName": "Notion Gemini Repro Raw",
-      "description": "Server with complex nested schema that breaks on some models (Notion API reproduction case) - exact raw schema object",
-      "file": "./notion-gemini-repro-raw-server.js",
-      "type": "node"
-    },
-    {
       "name": "number-param",
       "displayName": "Number Param",
       "description": "Tool with a number parameter",
@@ -243,6 +229,20 @@
       "displayName": "Structured Output",
       "description": "Demonstrates structuredContent responses with a simple echo tool",
       "file": "./structured-output-server.js",
+      "type": "node"
+    },
+    {
+      "name": "oauth-repro",
+      "displayName": "OAuth Reproduction",
+      "description": "Reproduces OAuth 2.0 flow issues with proper discovery endpoints - runs resource server on port 3001 and auth server on port 3002",
+      "file": "./oauth-repro-server.js",
+      "type": "node"
+    },
+    {
+      "name": "gpt5-breaker",
+      "displayName": "GPT5 Breaker",
+      "description": "Server with SQL query execution tool using complex parameter validation",
+      "file": "./gpt5-breaker-server.js",
       "type": "node"
     }
   ]

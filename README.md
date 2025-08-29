@@ -27,6 +27,7 @@ npx -y @msfeldstein/mcp-test-servers <server>
 - `enum-param`: Tool has enum string parameter
 - `env-check`: Checks for SHOULD_RUN environment variable being passed properly
 - `env-echo`: Echoes the environment variables
+- `gpt5-breaker`: Server with SQL query execution tool using complex parameter validation
 - `headers`: FastMCP server that safely returns HTTP header information
 - `instructions`: Server with instructions and a makeRequest tool that returns success for value 42
 - `image`: Tool returns an image of sonic the hedgehog
@@ -41,6 +42,7 @@ npx -y @msfeldstein/mcp-test-servers <server>
 - `notion-gemini-repro`: Server with complex nested schema that breaks on some models (Notion API reproduction case) - inline schema
 - `notion-gemini-repro-raw`: Server with complex nested schema that breaks on some models (Notion API reproduction case) - exact raw schema object
 - `number-param`: Tool with a number parameter
+- `oauth-repro`: Reproduces OAuth 2.0 flow issues with proper discovery endpoints - runs resource server on port 3001 and auth server on port 3002
 - `optional-param`: Tool has an optional param
 - `pattern-param`: Tool has a parameter with a pattern match
 - `ping`: A simple server that responds with 'pong'
