@@ -63,6 +63,14 @@ npx -y @msfeldstein/mcp-test-servers <server>
 - `dual-content`: Demonstrates different outputs for structuredContent and content in the same response
 - `everything`: Comprehensive server testing all MCP features - tools with/without params, resources, prompts, elicitation, dynamic tools, roots echo, env vars
 
+## 🚀 Quick Start: Automated Testing
+
+For instant comprehensive testing, use the built-in AI agent testing prompt:
+
+1. Start the everything server: `npx @msfeldstein/mcp-test-servers everything`
+2. In Cursor, use the slash command: `/test-everything`
+3. The AI will automatically execute all 20 test steps and provide a complete validation report
+
 # Test Plan for Everything Server
 
 The `everything` server is designed to comprehensively test all MCP features. Here's how to test each feature:
@@ -188,9 +196,16 @@ The `everything` server is designed to comprehensively test all MCP features. He
 - topic: "AI Development"
   **Expected:** Should return a personalized message mentioning Alice and AI Development
 
+### 13. AI Agent Testing Prompt
+
+**Prompt:** `test-everything`
+**Test:** Use this prompt in Cursor with a slash command: `/test-everything`
+**Expected:** Should return comprehensive step-by-step testing instructions for an AI agent to systematically test all MCP features
+**Usage:** Perfect for automated testing - the AI will execute all 20 testing steps automatically and provide a complete validation report
+
 ## Complete Test Sequence
 
-1. **Setup:** Set `MY_ENV_VAR=TestValue123` in environment
+1. **Setup:** Set `MY_ENV_VAR="My Special Token"` in environment
 2. **Basic Tools:** Test `simple_ping` and `echo_with_params``
 3. **Mixed Content:** Test `get_mixed_resources`
 4. **Elicitation:** Run through `test_all_elicitations` completely

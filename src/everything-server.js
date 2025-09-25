@@ -347,6 +347,7 @@ RESOURCES:
 PROMPTS:
 - simple-greeting: A prompt with no parameters
 - personalized-message: A prompt with 2 parameters (name and topic)
+- test-everything: Comprehensive testing instructions for AI agents
 
 This server is designed to test every aspect of the MCP protocol.`
       }
@@ -421,6 +422,84 @@ server.prompt("personalized-message", "Generate a personalized message with name
         content: {
           type: "text",
           text: `Hello ${name}! I hope you're having a wonderful day. I wanted to share some thoughts about ${topic} with you. The Model Context Protocol (MCP) is a fascinating technology that enables seamless communication between AI assistants and various tools and resources. It's exciting to see how ${topic} can enhance our interactions and make them more productive. Thank you for exploring this with me, ${name}!`
+        }
+      }
+    ]
+  };
+});
+
+// Add comprehensive testing prompt for AI agents
+server.prompt("test-everything", "Comprehensive testing instructions for AI agents to systematically test all MCP features", async () => {
+  return {
+    description: "Complete MCP testing instructions for AI agents",
+    messages: [
+      {
+        role: "user",
+        content: {
+          type: "text",
+          text: `You are an AI agent tasked with comprehensively testing the Everything MCP Server. This server implements ALL MCP features for testing purposes. Please systematically test each feature following this exact sequence:
+
+## TOOL TESTING PHASE
+
+### Basic Tools
+3. Call 'simple_ping' (no parameters) - should return "pong"
+4. Call 'echo_with_params' with:
+   - message: "Hello MCP World"
+   - repeat_count: 3
+   - uppercase: true
+   Expected: "HELLO MCP WORLD HELLO MCP WORLD HELLO MCP WORLD"
+
+### Mixed Content Tool
+5. Call 'get_mixed_resources' - should return both text and an image
+
+### Elicitation Testing
+6. Call 'test_all_elicitations' and respond to ALL prompts:
+   - Enter your name (string input)
+   - Answer if you like programming (boolean)
+   - Enter years of experience 0-50 (number)
+   - Select a programming language (enum)
+   Complete all steps to get the summary
+
+### Dynamic Tool Management
+7. Call 'toggle_dynamic_tool' - should enable the dynamic_feature tool
+8. Verify 'dynamic_feature' tool is now available
+9. Call 'dynamic_feature' with action: "test_action"
+10. Call 'toggle_dynamic_tool' again - should disable the dynamic_feature tool
+11. Verify 'dynamic_feature' tool is no longer available
+
+### System Information Tools
+12. Call 'echo_mcp_roots' - should show MCP roots JSON
+13. Call 'echo_env_var' - should show "MY_ENV_VAR = My Special Token"
+
+### Long-Running Task
+14. Call 'long_running_progress' with task_name: "MCP Comprehensive Test"
+    - Should run for 20 seconds with progress updates every 2 seconds
+    - Watch for progress notifications if your client supports them
+
+## RESOURCE TESTING PHASE
+15. Fetch resource 'everything://docs.txt' - should return comprehensive documentation
+16. Fetch resource 'everything://test-image.png' - should return a test image
+
+## PROMPT TESTING PHASE
+17. Use prompt 'simple-greeting' (no parameters) - should return friendly greeting
+18. Use prompt 'personalized-message' with:
+    - name: "AI Tester"
+    - topic: "MCP Protocol Validation"
+
+## VALIDATION PHASE
+19. Confirm all tests passed and document any failures
+20. Provide a summary of which MCP features are working correctly
+
+## SUCCESS CRITERIA
+- All tools execute without errors
+- Elicitation collects all 4 input types successfully
+- Dynamic tool can be toggled on/off
+- Resources return expected content types
+- Prompts generate appropriate responses
+- Environment variable is correctly echoed
+- Progress notifications work (if supported by client)
+
+Execute each step methodically and report the results. This comprehensive test validates that all MCP protocol features are functioning correctly.`
         }
       }
     ]
