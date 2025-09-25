@@ -442,53 +442,53 @@ server.prompt("test-everything", "Comprehensive testing instructions for AI agen
 ## TOOL TESTING PHASE
 
 ### Basic Tools
-3. Call 'simple_ping' (no parameters) - should return "pong"
-4. Call 'echo_with_params' with:
+1. Call 'simple_ping' (no parameters) - should return "pong"
+2. Call 'echo_with_params' with:
    - message: "Hello MCP World"
    - repeat_count: 3
    - uppercase: true
    Expected: "HELLO MCP WORLD HELLO MCP WORLD HELLO MCP WORLD"
 
 ### Mixed Content Tool
-5. Call 'get_mixed_resources' - should return both text and an image
+3. Call 'get_mixed_resources' - should return both text and an image
 
 ### Elicitation Testing
-6. Call 'test_all_elicitations' and respond to ALL prompts:
+4. Call 'test_all_elicitations' and respond to ALL prompts:
    - Enter your name (string input)
    - Answer if you like programming (boolean)
    - Enter years of experience 0-50 (number)
    - Select a programming language (enum)
    Complete all steps to get the summary
 
-### Dynamic Tool Management
-7. Call 'toggle_dynamic_tool' - should enable the dynamic_feature tool
-8. Verify 'dynamic_feature' tool is now available
-9. Call 'dynamic_feature' with action: "test_action"
-10. Call 'toggle_dynamic_tool' again - should disable the dynamic_feature tool
-11. Verify 'dynamic_feature' tool is no longer available
+### Dynamic Tool Testing
+5. Call 'toggle_dynamic_tool' - should enable the dynamic_feature tool
+6. Verify 'dynamic_feature' tool is now available
+7. Call 'dynamic_feature' with action: "test action" - should confirm it's active
+8. Call 'toggle_dynamic_tool' again - should disable the dynamic_feature tool
+9. Verify 'dynamic_feature' tool is no longer available
 
 ### System Information Tools
-12. Call 'echo_mcp_roots' - should show MCP roots JSON
-13. Call 'echo_env_var' - should show "MY_ENV_VAR = My Special Token"
+10. Call 'echo_mcp_roots' - should show MCP roots JSON
+11. Call 'echo_env_var' - should show "MY_ENV_VAR = My Special Token"
 
 ### Long-Running Task
-14. Call 'long_running_progress' with task_name: "MCP Comprehensive Test"
+12. Call 'long_running_progress' with task_name: "MCP Comprehensive Test"
     - Should run for 20 seconds with progress updates every 2 seconds
     - Watch for progress notifications if your client supports them
 
 ## RESOURCE TESTING PHASE
-15. Fetch resource 'everything://docs.txt' - should return comprehensive documentation
-16. Fetch resource 'everything://test-image.png' - should return a test image
+13. Fetch resource 'everything://docs.txt' - should return comprehensive documentation
+14. Fetch resource 'everything://test-image.png' - should return a test image
 
 ## PROMPT TESTING PHASE
-17. Use prompt 'simple-greeting' (no parameters) - should return friendly greeting
-18. Use prompt 'personalized-message' with:
+15. Use prompt 'simple-greeting' (no parameters) - should return friendly greeting
+16. Use prompt 'personalized-message' with:
     - name: "AI Tester"
     - topic: "MCP Protocol Validation"
 
 ## VALIDATION PHASE
-19. Confirm all tests passed and document any failures
-20. Provide a summary of which MCP features are working correctly
+17. Confirm all tests passed and document any failures
+18. Provide a summary of which MCP features are working correctly
 
 ## SUCCESS CRITERIA
 - All tools execute without errors
