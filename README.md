@@ -177,7 +177,7 @@ The `everything` server is designed to comprehensively test all MCP features. He
 ## Complete Test Sequence
 
 1. **Setup:** Set `MY_ENV_VAR=TestValue123` in environment
-2. **Basic Tools:** Test `simple_ping` and `echo_with_params`
+2. **Basic Tools:** Test `simple_ping` and `echo_with_params``
 3. **Mixed Content:** Test `get_mixed_resources`
 4. **Elicitation:** Run through `test_all_elicitations` completely
 5. **Dynamic Tools:** Toggle dynamic tool on/off and test availability
