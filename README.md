@@ -201,21 +201,3 @@ The `everything` server is designed to comprehensively test all MCP features. He
 9. **Prompts:** Test both parameterized and non-parameterized prompts
 
 This comprehensive test ensures all MCP protocol features are working correctly.
-
-# Remote Servers
-
-```
-
-# Streamable HTTP
-
-npm run http-ping
-
-# SSE
-
-npm run sse-ping
-
-```
-
-```
-
-```
