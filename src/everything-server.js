@@ -3,6 +3,7 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
+import { SONIC_IMAGE_BASE64 } from "./sample-image.js";
 
 // Create a new MCP server with comprehensive capabilities
 const server = new McpServer(
@@ -16,9 +17,6 @@ const server = new McpServer(
     }
   }
 );
-
-// Base64 encoded test image (small blue square)
-const TEST_IMAGE_BASE64 = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChAGA4nEKtAAAAABJRU5ErkJggg==";
 
 // Dynamic tool state
 let dynamicToolEnabled = false;
@@ -66,8 +64,8 @@ server.tool("get_mixed_resources", "Returns both text and image content", async 
       },
       {
         type: "image",
-        data: TEST_IMAGE_BASE64,
-        mimeType: "image/png"
+        data: SONIC_IMAGE_BASE64,
+        mimeType: "image/jpeg",
       },
       {
         type: "text", 
