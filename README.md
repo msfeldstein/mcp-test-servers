@@ -143,11 +143,8 @@ The `everything` server is designed to comprehensively test all MCP features. He
 ### 7. Environment Variable Echo
 
 **Tool:** `echo_env_var`
-**Test:**
-
-1. Set environment variable: `MY_ENV_VAR=test_value`
-2. Call the tool
-   **Expected:** Should return "MY_ENV_VAR = test_value" or indicate if not set
+**Test:** prompt: "Call the echo_env_var MCP tool"
+**Expected:** Should return "MY_ENV_VAR = My Special Token"
 
 ### 8. Long-Running Progress Tool
 
