@@ -69,15 +69,32 @@ The `everything` server is designed to comprehensively test all MCP features. He
 
 ## Tools Testing
 
+### 0. Setup
+
+```
+{
+    "mcpServers": {
+        "everything": {
+            "command": "npx @msfeldstein/mcp-test-servers everything",
+            "env": {
+                "MY_ENV_VAR": "My Special Token"
+            }
+        }
+    }
+}
+```
+
 ### 1. Tool with Parameters
 
 **Tool:** `echo_with_params`
 **Test:** Call with various parameter combinations:
 
 ```
+
 - message: "Hello World", repeat_count: 3, uppercase: true
 - message: "Test", repeat_count: 1, uppercase: false
 - message: "MCP" (using defaults)
+
 ```
 
 **Expected:** Should echo the message with specified repetitions and case transformation.
@@ -154,7 +171,7 @@ The `everything` server is designed to comprehensively test all MCP features. He
 ### 10. Image Resource
 
 **Resource:** `everything://test-image.png`
-**Test:** Request the resource  
+**Test:** Request the resource
 **Expected:** Should return a small test image in PNG format
 
 ## Prompts Testing
@@ -162,13 +179,13 @@ The `everything` server is designed to comprehensively test all MCP features. He
 ### 11. Prompt without Parameters
 
 **Prompt:** `simple-greeting`
-**Test:** Request the prompt
+**Test:** Type /sim and /simple-greeting should be suggested. Submit it.
 **Expected:** Should return a friendly greeting message about the Everything Server
 
 ### 12. Prompt with Parameters
 
 **Prompt:** `personalized-message`
-**Test:** Request with parameters:
+**Test:** submit /personalized-message:
 
 - name: "Alice"
 - topic: "AI Development"
@@ -191,9 +208,17 @@ This comprehensive test ensures all MCP protocol features are working correctly.
 # Remote Servers
 
 ```
+
 # Streamable HTTP
+
 npm run http-ping
 
 # SSE
+
 npm run sse-ping
+
+```
+
+```
+
 ```
