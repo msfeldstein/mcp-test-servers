@@ -1,5 +1,11 @@
 #!/usr/bin/env node
 
+/*
+Sessions born and die,
+IDs dance through HTTP streams,
+State persists in code.
+*/
+
 import express from "express";
 import cors from "cors";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";

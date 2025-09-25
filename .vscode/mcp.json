@@ -7,5 +7,19 @@
                 "Prompt.app/Contents/MacOS/repoprompt-mcp"
             ]
         }
-    }
+    },
+    "inputs": [
+        {
+            "type": "promptString",
+            "id": "MY_TEST11",
+            "description": "MY_TEST11",
+            "password": false
+        },
+        {
+            "type": "promptString",
+            "id": "SECRET_KEY3",
+            "description": "SECRET_KEY3",
+            "password": true
+        }
+    ]
 }

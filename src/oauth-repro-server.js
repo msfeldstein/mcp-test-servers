@@ -11,7 +11,18 @@ const AUTH_SERVER_PORT = process.env.AUTH_SERVER_PORT || 3002;
 const AUTH_SERVER_URL = process.env.AUTH_SERVER_URL || `http://localhost:${AUTH_SERVER_PORT}`;
 
 // This server reproduces the OAuth issue described where Cursor loses track of 
-// the authorization server endpoints during the callback handling
+// the authorization server endpoints during the callback handling.
+// 
+// ISSUE REPRODUCTION:
+// 1. Cursor correctly discovers authorization server endpoints initially
+// 2. After OAuth callback, Cursor makes invalid requests to non-existent endpoints:
+//    - RS/.well-known/oauth-protected-resource/mcp
+//    - RS/.well-known/oauth-authorization-server/mcp  
+//    - RS/.well-known/oauth-authorization-server
+//    - RS/.well-known/openid-configuration/mcp
+//    - RS/mcp/.well-known/openid-configuration
+//    - RS/token
+// 3. Instead of using the correct token_endpoint from discovery
 
 const app = express();
 const authApp = express();
@@ -20,6 +31,22 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 authApp.use(express.json());
 authApp.use(express.urlencoded({ extended: true }));
+
+// Comprehensive logging middleware to track all requests
+app.use((req, res, next) => {
+  const timestamp = new Date().toISOString();
+  console.log(`[${timestamp}] RESOURCE SERVER: ${req.method} ${req.url}`);
+  if (req.headers.authorization) {
+    console.log(`[${timestamp}] RESOURCE SERVER: Authorization header present`);
+  }
+  next();
+});
+
+authApp.use((req, res, next) => {
+  const timestamp = new Date().toISOString();
+  console.log(`[${timestamp}] AUTH SERVER: ${req.method} ${req.url}`);
+  next();
+});
 
 // In-memory storage for OAuth state
 const authCodes = new Map();
@@ -32,7 +59,10 @@ const CLIENT_SECRET = "test-client-secret";
 clients.set(CLIENT_ID, {
   client_id: CLIENT_ID,
   client_secret: CLIENT_SECRET,
-  redirect_uris: ["cursor://anysphere.cursor-retrieval/oauth/user-hound/callback"],
+  redirect_uris: [
+    "cursor://anysphere.cursor-retrieval/oauth/user-hound/callback",
+    "http://localhost:3001/callback", // Alternative for testing
+  ],
   scopes: ["mcp.read"]
 });
 
@@ -72,6 +102,51 @@ authApp.get("/.well-known/jwks.json", (req, res) => {
   });
 });
 
+// Dynamic Client Registration endpoint
+authApp.post("/oauth/register", (req, res) => {
+  const { redirect_uris, token_endpoint_auth_method, grant_types, response_types, client_name } = req.body;
+  
+  console.log("📝 CLIENT REGISTRATION REQUEST:");
+  console.log(`   Client Name: ${client_name}`);
+  console.log(`   Redirect URIs: ${JSON.stringify(redirect_uris)}`);
+  console.log(`   Auth Method: ${token_endpoint_auth_method}`);
+  
+  // Generate a new client ID for this registration
+  const clientId = `cursor_${crypto.randomBytes(8).toString('hex')}`;
+  const clientSecret = token_endpoint_auth_method === 'none' ? null : crypto.randomBytes(16).toString('hex');
+  
+  // Store the client
+  clients.set(clientId, {
+    client_id: clientId,
+    client_secret: clientSecret,
+    redirect_uris: redirect_uris || [],
+    grant_types: grant_types || ["authorization_code"],
+    response_types: response_types || ["code"],
+    client_name: client_name || "Unknown Client",
+    token_endpoint_auth_method: token_endpoint_auth_method || "client_secret_basic",
+    scopes: ["mcp.read"]
+  });
+  
+  console.log(`✅ Registered new client: ${clientId}`);
+  
+  const registrationResponse = {
+    client_id: clientId,
+    client_secret: clientSecret,
+    redirect_uris: redirect_uris,
+    grant_types: grant_types,
+    response_types: response_types,
+    client_name: client_name,
+    token_endpoint_auth_method: token_endpoint_auth_method
+  };
+  
+  // Don't include client_secret in response if auth method is 'none'
+  if (token_endpoint_auth_method === 'none') {
+    delete registrationResponse.client_secret;
+  }
+  
+  res.json(registrationResponse);
+});
+
 // Authorization endpoint
 authApp.get("/oauth/authorize", (req, res) => {
   const { client_id, redirect_uri, response_type, scope, state, code_challenge, code_challenge_method } = req.query;
@@ -88,8 +163,9 @@ authApp.get("/oauth/authorize", (req, res) => {
     return res.status(400).json({ error: "invalid_redirect_uri" });
   }
   
-  // Generate authorization code
-  const authCode = `tbac__${crypto.randomBytes(16).toString('hex')}`;
+  // Generate authorization code (matching format from bug report)
+  const authCode = `tbac__${crypto.randomBytes(16).toString('hex').toUpperCase()}`;
+  console.log(`🔑 Generated auth code: ${authCode}`);
   authCodes.set(authCode, {
     client_id,
     redirect_uri,
@@ -123,7 +199,14 @@ authApp.post("/oauth/token", (req, res) => {
   
   // Validate client
   const client = clients.get(client_id);
-  if (!client || client.client_secret !== client_secret) {
+  if (!client) {
+    return res.status(401).json({ error: "invalid_client" });
+  }
+  
+  // Check client authentication based on auth method
+  if (client.token_endpoint_auth_method === 'none') {
+    console.log("✅ Client uses 'none' auth method, no secret required");
+  } else if (client.client_secret !== client_secret) {
     return res.status(401).json({ error: "invalid_client" });
   }
   
@@ -216,12 +299,58 @@ authApp.post("/oauth/introspect", (req, res) => {
 
 // OAuth Protected Resource Discovery Endpoint
 app.get("/.well-known/oauth-protected-resource", (req, res) => {
+  console.log("✅ CORRECT: Serving oauth-protected-resource discovery");
   res.json({
     resource: `${BASE_URL}/mcp`,
     authorization_servers: [AUTH_SERVER_URL],
     jwks_uri: `${AUTH_SERVER_URL}/.well-known/jwks.json`,
     scopes_supported: ["mcp.read"]
   });
+});
+
+// ============================================================================
+// INVALID ENDPOINTS THAT CURSOR INCORRECTLY TRIES TO ACCESS (BUG REPRODUCTION)
+// ============================================================================
+
+// Invalid endpoint: /.well-known/oauth-protected-resource/mcp
+app.get("/.well-known/oauth-protected-resource/mcp", (req, res) => {
+  console.log("❌ BUG REPRODUCED: Cursor trying invalid endpoint /.well-known/oauth-protected-resource/mcp");
+  res.status(404).json({ error: "not_found", error_description: "This endpoint should not exist" });
+});
+
+// Invalid endpoint: /.well-known/oauth-authorization-server/mcp
+app.get("/.well-known/oauth-authorization-server/mcp", (req, res) => {
+  console.log("❌ BUG REPRODUCED: Cursor trying invalid endpoint /.well-known/oauth-authorization-server/mcp");
+  res.status(404).json({ error: "not_found", error_description: "This endpoint should not exist" });
+});
+
+// Invalid endpoint: /.well-known/oauth-authorization-server (on resource server)
+app.get("/.well-known/oauth-authorization-server", (req, res) => {
+  console.log("❌ BUG REPRODUCED: Cursor trying /.well-known/oauth-authorization-server on RESOURCE server instead of AUTH server");
+  res.status(404).json({ error: "not_found", error_description: "This endpoint exists on the auth server, not resource server" });
+});
+
+// Invalid endpoint: /.well-known/openid-configuration/mcp
+app.get("/.well-known/openid-configuration/mcp", (req, res) => {
+  console.log("❌ BUG REPRODUCED: Cursor trying invalid endpoint /.well-known/openid-configuration/mcp");
+  res.status(404).json({ error: "not_found", error_description: "This endpoint should not exist" });
+});
+
+// Invalid endpoint: /mcp/.well-known/openid-configuration
+app.get("/mcp/.well-known/openid-configuration", (req, res) => {
+  console.log("❌ BUG REPRODUCED: Cursor trying invalid endpoint /mcp/.well-known/openid-configuration");
+  res.status(404).json({ error: "not_found", error_description: "This endpoint should not exist" });
+});
+
+// Invalid endpoint: /token (should be on auth server, not resource server)
+app.post("/token", (req, res) => {
+  console.log("❌ BUG REPRODUCED: Cursor trying /token on RESOURCE server instead of AUTH server");
+  res.status(404).json({ error: "not_found", error_description: "Token endpoint is on the auth server, not resource server" });
+});
+
+app.get("/token", (req, res) => {
+  console.log("❌ BUG REPRODUCED: Cursor trying GET /token on RESOURCE server (should be POST on AUTH server)");
+  res.status(405).json({ error: "method_not_allowed", error_description: "Token endpoint should be POST on auth server" });
 });
 
 // MCP endpoint that requires authentication

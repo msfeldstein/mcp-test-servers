@@ -233,9 +233,37 @@
     },
     {
       "name": "oauth-repro",
-      "displayName": "OAuth Reproduction",
+      "displayName": "OAuth Reproduction", 
       "description": "Reproduces OAuth 2.0 flow issues with proper discovery endpoints - runs resource server on port 3001 and auth server on port 3002",
       "file": "./oauth-repro-server.js",
+      "type": "node"
+    },
+    {
+      "name": "oauth-debug",
+      "displayName": "OAuth Debug Server",
+      "description": "OAuth debugging server with comprehensive logging and endpoint tracking - runs resource server on port 3003 and auth server on port 3004",
+      "file": "./oauth-debug-server.js", 
+      "type": "node"
+    },
+    {
+      "name": "oauth-callback-test",
+      "displayName": "OAuth Callback Test",
+      "description": "OAuth callback testing server that simulates Cursor 1.4.x endpoint discovery bugs - runs on port 3005",
+      "file": "./oauth-callback-test-server.js",
+      "type": "node"
+    },
+    {
+      "name": "oauth-edge-case",
+      "displayName": "OAuth Edge Case Server",
+      "description": "OAuth server with configurable edge cases to trigger discovery bugs - resource server on port 3006, auth server on port 3007",
+      "file": "./oauth-edge-case-server.js",
+      "type": "node"
+    },
+    {
+      "name": "oauth-bug-trigger",
+      "displayName": "OAuth Bug Trigger Server",
+      "description": "Specialized server designed to reproduce the exact Cursor 1.4.x OAuth discovery bug - resource server on port 3008, auth server on port 3009",
+      "file": "./oauth-bug-trigger-server.js",
       "type": "node"
     },
     {
@@ -243,6 +271,34 @@
       "displayName": "GPT5 Breaker",
       "description": "Server with SQL query execution tool using complex parameter validation",
       "file": "./gpt5-breaker-server.js",
+      "type": "node"
+    },
+    {
+      "name": "sse-timeout",
+      "displayName": "SSE Timeout",
+      "description": "Streamable HTTP server that establishes SSE connections but times out after 30 seconds to test client reconnection",
+      "file": "./sse-timeout-server.js",
+      "type": "node"
+    },
+    {
+      "name": "session-inactivity",
+      "displayName": "Session Inactivity",
+      "description": "Streamable HTTP server that expires sessions after 30 seconds of inactivity to test session management",
+      "file": "./session-inactivity-server.js",
+      "type": "node"
+    },
+    {
+      "name": "dual-content",
+      "displayName": "Dual Content",
+      "description": "Demonstrates different outputs for structuredContent and content in the same response",
+      "file": "./dual-content-server.js",
+      "type": "node"
+    },
+    {
+      "name": "everything",
+      "displayName": "Everything",
+      "description": "Comprehensive server testing all MCP features - tools with/without params, resources, prompts, elicitation, dynamic tools, roots echo, env vars",
+      "file": "./everything-server.js",
       "type": "node"
     }
   ]

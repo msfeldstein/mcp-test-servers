@@ -15,14 +15,14 @@ const server = new McpServer(
 const resources = [
   {
     name: "User Guide",
-    uri: "resource://user-guide.md",
+    uri: "file://path/to/user-guide.md",
     description: "Comprehensive user guide for the application",
     mimeType: "text/markdown",
     content: "# User Guide\n\nThis is a comprehensive guide for using our application..."
   },
   {
     name: "API Documentation", 
-    uri: "resource://api-docs.json",
+    uri: "file://path/to/api-docs.json",
     description: "REST API documentation and endpoints",
     mimeType: "application/json",
     content: JSON.stringify({
@@ -35,24 +35,31 @@ const resources = [
   },
   {
     name: "Configuration Template",
-    uri: "resource://config-template.yaml",
+    uri: "file://path/to/config-template.yaml",
     description: "Default configuration template for the service",
     mimeType: "application/yaml",
     content: "# Configuration Template\nserver:\n  port: 8080\n  host: localhost\ndatabase:\n  url: postgresql://localhost:5432/mydb"
   },
   {
     name: "Sample Data",
-    uri: "resource://sample-data.csv",
+    uri: "file://path/to/sample-data.csv",
     description: "Sample dataset for testing and development",
     mimeType: "text/csv",
     content: "id,name,email,created_at\n1,John Doe,john@example.com,2024-01-01\n2,Jane Smith,jane@example.com,2024-01-02"
   },
   {
     name: "Release Notes",
-    uri: "resource://release-notes.txt",
+    uri: "file://path/to/release-notes.txt",
     description: "Latest release notes and changelog",
     mimeType: "text/plain",
     content: "Release Notes v1.0.0\n\n- Initial release\n- Added user management\n- Implemented REST API\n- Added configuration system"
+  },
+  {
+    name: "Sonic Image",
+    uri: "file://path/to/sonic-image.jpeg",
+    description: "Sample image resource - Sonic the Hedgehog character image",
+    mimeType: "image/jpeg",
+    content: "/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
   }
 ];
 

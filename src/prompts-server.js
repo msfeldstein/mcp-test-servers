@@ -27,7 +27,7 @@ const PROMPTS = {
     description: "A static greeting prompt that always returns the same message"
   },
   "personalized-story": {
-    name: "personalized-story", 
+    name: "personalized-story-with-a-very-long-name", 
     description: "Generate a personalized story based on a character name and location",
     arguments: [
       {
