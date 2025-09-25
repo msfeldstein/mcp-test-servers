@@ -1,0 +1,65 @@
+{
+  "version": "2.2",
+  "title": "Awesome API Documentation",
+  "baseUrl": "https://api.example.com",
+  "endpoints": [
+    {
+      "path": "/users",
+      "method": "GET",
+      "description": "Retrieve a paginated list of all users with optional filtering",
+      "parameters": ["page", "limit", "filter"]
+    },
+    {
+      "path": "/users/{id}",
+      "method": "GET",
+      "description": "Get detailed user information by unique identifier",
+      "parameters": ["id"]
+    },
+    {
+      "path": "/users",
+      "method": "POST",
+      "description": "Create a new user account with validation",
+      "parameters": ["name", "email", "password"]
+    },
+    {
+      "path": "/users/{id}",
+      "method": "PUT",
+      "description": "Update an existing user's information",
+      "parameters": ["id", "name", "email"]
+    },
+    {
+      "path": "/users/{id}",
+      "method": "DELETE",
+      "description": "Soft delete a user account",
+      "parameters": ["id"]
+    },
+    {
+      "path": "/auth/login",
+      "method": "POST",
+      "description": "Authenticate user and return JWT token",
+      "parameters": ["email", "password"]
+    },
+    {
+      "path": "/auth/logout",
+      "method": "POST",
+      "description": "Invalidate user session and logout",
+      "parameters": ["token"]
+    },
+    {
+      "path": "/health",
+      "method": "GET",
+      "description": "Check API health status and uptime"
+    },
+    {
+      "path": "/metrics",
+      "method": "GET",
+      "description": "Get API usage metrics and performance data",
+      "parameters": ["timeframe"]
+    }
+  ],
+  "rateLimits": {
+    "perMinute": 100,
+    "perHour": 1000
+  },
+  "lastUpdated": "2024-01-15T10:30:00Z"
+}

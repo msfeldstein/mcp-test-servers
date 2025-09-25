@@ -1,0 +1,5 @@
+---
+globs: *.js
+alwaysApply: false
+---
+Make sure to use the most up to date sdk for server authoring
