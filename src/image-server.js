@@ -3,7 +3,7 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
-import { SONIC_IMAGE_BASE64 } from "./sample-image";
+import { SONIC_IMAGE_BASE64 } from "./sample-image.js";
 
 // Create a new MCP server with stdio transport
 const server = new McpServer({
