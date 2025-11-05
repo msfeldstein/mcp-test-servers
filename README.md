@@ -12,6 +12,24 @@ Visit our **[GitHub Pages Gallery](https://msfeldstein.github.io/mcp-test-server
 npx -y @msfeldstein/mcp-test-servers <server>
 ```
 
+## Development
+
+Use the cli.js directly for development
+
+```
+{
+  "mcpServers": {
+    "test-server": {
+      "command": "/Users/feldstein/Source/mcp-test-servers/src/cli.js",
+      "args": [
+        "ping"
+      ],
+      "env": {}
+    }
+  }
+}
+```
+
 ## Available Servers
 
 - `all-types`: Demonstrates various tool parameter types supported by MCP
