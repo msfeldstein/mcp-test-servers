@@ -25,6 +25,7 @@ npx -y @msfeldstein/mcp-test-servers <server>
 - `duplicate-names`: Server with duplicate names for resources
 - `elicitation`: Server demonstrating MCP elicitation feature - requests user information (name, age, contact details, preferences) through structured forms
 - `enum-param`: Tool has enum string parameter
+- `integer-anyof-bug`: Reproduces Cursor's integer validation bug with anyOf schema - parameters with `{"anyOf": [{"type": "integer"}, {"type": "null"}]}` fail validation with 'got number' error
 - `env-check`: Checks for SHOULD_RUN environment variable being passed properly
 - `env-echo`: Echoes the environment variables
 - `gpt5-breaker`: Server with SQL query execution tool using complex parameter validation

@@ -71,6 +71,13 @@
       "type": "node"
     },
     {
+      "name": "integer-anyof-bug",
+      "displayName": "Integer AnyOf Bug",
+      "description": "Reproduces Cursor's integer validation bug with anyOf schema - parameters with {\"anyOf\": [{\"type\": \"integer\"}, {\"type\": \"null\"}]} fail validation with 'got number' error",
+      "file": "./integer-anyof-bug-server.js",
+      "type": "node"
+    },
+    {
       "name": "env-check",
       "displayName": "Env Check",
       "description": "Checks for SHOULD_RUN environment variable being passed properly",
