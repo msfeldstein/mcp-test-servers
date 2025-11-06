@@ -2,5 +2,6 @@
 alwaysApply: true
 ---
 To create a new server, copy the [ping-server.js](mdc:src/ping-server.js) for the pattern and use the MCP SDK documentation
-Make sure to add it to [cli.js](mdc:src/cli.js) and [README.md](mdc:README.md)
+Add the server to servers.json so it will show up in the cli and readme and gallery
 Do not print anything to console.log since this is a stdio service and you can't write to it without breaking the protocol
+Look up the documentation for the mcp protocol if you need to.
