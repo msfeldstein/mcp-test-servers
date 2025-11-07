@@ -274,6 +274,13 @@
       "type": "node"
     },
     {
+      "name": "oauth-token-refresh",
+      "displayName": "OAuth Token Refresh Test",
+      "description": "OAuth server with short access token expiration (30s default) to test automatic token refresh - resource server on port 3010, auth server on port 3011",
+      "file": "./oauth-token-refresh-server.js",
+      "type": "node"
+    },
+    {
       "name": "gpt5-breaker",
       "displayName": "GPT5 Breaker",
       "description": "Server with SQL query execution tool using complex parameter validation",
