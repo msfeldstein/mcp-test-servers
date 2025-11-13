@@ -36,7 +36,7 @@ server.tool("echo", {
   return {
     content: [{
       type: "text",
-      text: `User said: ${params.text}` || "No message sent"
+      text: `User said: ${params.txt || "No message sent"}`
     }]
   };
 });

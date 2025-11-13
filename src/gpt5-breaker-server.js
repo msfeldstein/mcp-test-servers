@@ -4,6 +4,13 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
 
+// Define the parameter schema using Zod for consistency
+const executeSqlParamsSchema = z.object({
+  query: z.string().min(1, "SQL query is required").describe("SQL query to execute"),
+  database: z.string().min(1, "Database name is required").describe("Database name to execute the query against"),
+  params: z.array(z.any()).optional().describe("Optional parameters for the SQL query"),
+});
+
 // Create a new MCP server with stdio transport
 const server = new McpServer(
   {
@@ -13,37 +20,15 @@ const server = new McpServer(
       tools: {
         "execute-sql": {
           description: "Execute a SQL query against a specified database",
-          parameters: {
-            type: "object",
-            properties: {
-              query: {
-                type: "string",
-                description: "SQL query to execute"
-              },
-              params: {
-                type: "array",
-                items: {},
-                description: "Optional parameters for the SQL query"
-              },
-              database: {
-                type: "string",
-                description: "Database name to execute the query against"
-              }
-            },
-            required: ["query", "database", "params"]
-          }
-        }
-      }
-    }
+          parameters: executeSqlParamsSchema, // Use Zod schema directly for capabilities
+        },
+      },
+    },
   }
 );
 
 // Register the execute-sql tool with the provided schema
-server.tool("execute-sql", {
-  query: z.string().min(1, 'SQL query is required'),
-  params: z.array(z.any()),
-  database: z.string().min(1, 'Database name is required')
-}, async (params) => {
+server.tool("execute-sql", executeSqlParamsSchema, async (params) => {
   // Simulate SQL execution (this is a test server)
   const { query, params: queryParams, database } = params;
   
@@ -51,14 +36,12 @@ server.tool("execute-sql", {
   return {
     content: [{
       type: "text",
-      text: `SQL Query executed successfully on database '${database}':\n\nQuery: ${query}\n${queryParams ? `Parameters: ${JSON.stringify(queryParams)}\n` : ''}Result: Mock execution - no actual database connection established.`
+      text: `SQL Query executed successfully on database '${database}':\n\nQuery: ${query}\n${queryParams && queryParams.length > 0 ? `Parameters: ${JSON.stringify(queryParams)}\n` : ''}Result: Mock execution - no actual database connection established.`
     }]
   };
 });
 
 // Connect to the transport and start the server
 await server.connect(new StdioServerTransport());
-
-// This server implements SQL query execution with parameter validation
 
 

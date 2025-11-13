@@ -80,13 +80,34 @@ const server = new McpServer(
                     name: file,
                     isDirectory: stats.isDirectory(),
                     size: stats.size,
-                    modified: stats.mtime
+                    modified: stats.mtime.toISOString()
                   };
                 })
               );
               return { files: fileStats };
             } catch (error) {
               throw new Error(`Failed to list directory: ${error.message}`);
+            }
+          }
+        },
+        deleteFile: {
+          description: "Delete a file from the filesystem",
+          parameters: {
+            type: "object",
+            properties: {
+              filePath: {
+                type: "string",
+                description: "Path to the file to delete"
+              }
+            },
+            required: ["filePath"]
+          },
+          async handler(params) {
+            try {
+              await fs.unlink(params.filePath);
+              return { success: true, message: `File ${params.filePath} deleted successfully` };
+            } catch (error) {
+              throw new Error(`Failed to delete file: ${error.message}`);
             }
           }
         }

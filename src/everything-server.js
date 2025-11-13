@@ -266,12 +266,13 @@ server.tool("echo_env_var", "Echoes the MY_ENV_VAR environment variable", async 
 
 // 8. Long-running progress tool that updates every 2 seconds for 20 seconds
 server.tool("long_running_progress", {
-  task_name: z.string().optional().default("MCP Test Task").describe("Name of the task to run")
+  task_name: z.string().optional().default("MCP Test Task").describe("Name of the task to run"),
+  duration: z.number().optional().default(20).describe("Total duration in seconds")
 }, async (params) => {
   const taskName = params?.task_name || "MCP Test Task";
-  const totalDuration = 20; // 20 seconds
+  const totalDuration = params?.duration || 20; // Default 20 seconds
   const updateInterval = 2; // 2 seconds
-  const totalSteps = totalDuration / updateInterval; // 10 steps
+  const totalSteps = Math.floor(totalDuration / updateInterval); // Calculate steps
   
   const stepMessages = [
     "🚀 Initializing task...",
@@ -368,7 +369,7 @@ server.resource(
       {
         uri: "everything://test-image.png",
         mimeType: "image/png",
-        text: TEST_IMAGE_BASE64
+        text: SONIC_IMAGE_BASE64
       }
     ]
   })
