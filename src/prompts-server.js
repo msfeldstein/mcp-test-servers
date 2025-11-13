@@ -53,7 +53,11 @@ server.setRequestHandler(ListPromptsRequestSchema, async () => {
 
 // Handle getting a specific prompt
 server.setRequestHandler(GetPromptRequestSchema, async (request) => {
-  const prompt = PROMPTS[request.params.name];
+  // Handle both the long name and short name for backward compatibility
+  const promptName = request.params.name === "personalized-story" 
+    ? "personalized-story-with-a-very-long-name" 
+    : request.params.name;
+  const prompt = PROMPTS[promptName];
   
   if (!prompt) {
     throw new Error(`Prompt not found: ${request.params.name}`);
@@ -81,7 +85,8 @@ server.setRequestHandler(GetPromptRequestSchema, async (request) => {
     };
   }
   
-  if (request.params.name === "personalized-story") {
+  // Fixed: Handle the actual prompt name with long name
+  if (request.params.name === "personalized-story-with-a-very-long-name" || request.params.name === "personalized-story") {
     const characterName = request.params.arguments?.characterName || "Unknown";
     const location = request.params.arguments?.location || "Unknown Place";
     

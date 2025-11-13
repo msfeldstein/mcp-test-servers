@@ -40,16 +40,35 @@ optionalTool.disable();
 
 // Register the enableTools tool - this is always available
 server.tool("toggleTool", async (params) => {
-    if (optionalTool.enabled) {
-        optionalTool.disable()
-    } else {
-        optionalTool.enable();
-    }
+    try {
+        if (optionalTool.enabled) {
+            optionalTool.disable();
+        } else {
+            optionalTool.enable();
+        }
 
+        return {
+            content: [{
+                type: "text",
+                text: `Success! The 'optionalTool' has been ${optionalTool.enabled ? "enabled" : "disabled"}.`
+            }]
+        };
+    } catch (error) {
+        return {
+            content: [{
+                type: "text",
+                text: `Error toggling tool: ${error.message}`
+            }]
+        };
+    }
+});
+
+// Register a status tool to check current tool state
+server.tool("checkToolStatus", "Check the current status of the optional tool", async (params) => {
     return {
         content: [{
             type: "text",
-            text: `Success! The 'optionalTool' has been ${optionalTool.enabled ? "enabled" : "disabled"}.`
+            text: `The 'optionalTool' is currently ${optionalTool.enabled ? "enabled" : "disabled"}.`
         }]
     };
 });

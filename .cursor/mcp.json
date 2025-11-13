@@ -1,0 +1,13 @@
+{
+    "mcpServers": {
+      "token-exp": {
+        "url": "http://localhost:3010/mcp"
+      },
+      "ping": {
+        "command": "/Users/feldstein/Source/mcp-test-servers/src/cli.js",
+        "args": [
+          "ping"
+        ]
+      }
+    }
+  }
