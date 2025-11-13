@@ -19,6 +19,10 @@
             min-height: 100vh;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -71,6 +75,38 @@
             font-weight: 600;
             color: #2d3748;
             margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: color 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .server-name:hover {
+            color: #667eea;
+        }
+
+        .server-name .anchor-icon {
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            font-size: 1.2rem;
+        }
+
+        .server-name:hover .anchor-icon {
+            opacity: 1;
+        }
+
+        .server-card:target {
+            animation: highlight 1s ease;
+        }
+
+        @keyframes highlight {
+            0%, 100% {
+                box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            }
+            50% {
+                box-shadow: 0 0 30px rgba(102, 126, 234, 0.6);
+            }
         }
 
         .server-description {
@@ -194,12 +230,16 @@
         function createServerCard(server) {
             const card = document.createElement('div');
             card.className = 'server-card';
+            card.id = `server-${server.name}`;
             
             const installLink = generateInstallLink(server.name);
             
             card.innerHTML = `
                 <div class="card-content">
-                    <div class="server-name">${server.displayName}</div>
+                    <div class="server-name" data-server-name="${server.name}">
+                        ${server.displayName}
+                        <span class="anchor-icon">🔗</span>
+                    </div>
                     <div class="server-description">${server.description}</div>
                     <div class="card-footer">
                         <div class="npm-command">npx -y @msfeldstein/mcp-test-servers ${server.name}</div>
@@ -210,7 +250,45 @@
                 </div>
             `;
             
+            // Add click handler to the server name
+            const serverNameEl = card.querySelector('.server-name');
+            serverNameEl.addEventListener('click', (e) => {
+                e.preventDefault();
+                const serverName = e.currentTarget.dataset.serverName;
+                const anchor = `#server-${serverName}`;
+                
+                // Update URL without triggering page reload
+                history.pushState(null, '', anchor);
+                
+                // Scroll to the card
+                card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                
+                // Copy link to clipboard
+                const fullUrl = window.location.href;
+                navigator.clipboard.writeText(fullUrl).then(() => {
+                    // Optional: Show a brief notification
+                    showCopyNotification(serverNameEl);
+                });
+            });
+            
             return card;
+        }
+
+        function showCopyNotification(element) {
+            const notification = document.createElement('span');
+            notification.textContent = ' (Link copied!)';
+            notification.style.cssText = 'color: #667eea; font-size: 0.9rem; animation: fadeOut 2s forwards;';
+            
+            // Add fade out animation
+            const style = document.createElement('style');
+            style.textContent = '@keyframes fadeOut { 0% { opacity: 1; } 70% { opacity: 1; } 100% { opacity: 0; } }';
+            if (!document.querySelector('style[data-notification-style]')) {
+                style.setAttribute('data-notification-style', 'true');
+                document.head.appendChild(style);
+            }
+            
+            element.appendChild(notification);
+            setTimeout(() => notification.remove(), 2000);
         }
 
         // Load servers from JSON and generate gallery
@@ -238,8 +316,25 @@
             });
         }
 
+        // Handle initial hash on page load
+        function handleInitialHash() {
+            if (window.location.hash) {
+                // Wait a bit for the page to render
+                setTimeout(() => {
+                    const element = document.querySelector(window.location.hash);
+                    if (element) {
+                        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }, 100);
+            }
+        }
+
         // Initialize the gallery when the page loads
-        document.addEventListener('DOMContentLoaded', loadServersAndGenerateGallery);
+        document.addEventListener('DOMContentLoaded', () => {
+            loadServersAndGenerateGallery().then(() => {
+                handleInitialHash();
+            });
+        });
     </script>
 </body>
 </html>
