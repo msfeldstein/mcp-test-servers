@@ -2,6 +2,8 @@
 
 A collection of test servers implementing the Model Context Protocol (MCP).
 
+<!-- Random edit for testing -->
+
 ## 🚀 Quick Install Gallery
 
 Visit our **[GitHub Pages Gallery](https://msfeldstein.github.io/mcp-test-servers/)** for one-click install buttons that work directly with Cursor!
