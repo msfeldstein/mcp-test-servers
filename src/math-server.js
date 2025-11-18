@@ -41,6 +41,7 @@ const server = new McpServer(
 // ============================================================================
 // Basic Arithmetic Operations
 // ============================================================================
+// Random test edit - arithmetic section
 
 server.tool("add", {
   a: z.number().describe("First number"),

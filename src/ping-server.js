@@ -88,6 +88,7 @@ const server = new McpServer(
 // ============================================================================
 // Basic Communication Tools
 // ============================================================================
+// Random test edit - communication tools section
 
 server.tool("ping", "A simple tool that returns 'pong'", async (params) => {
   const timestamp = new Date().toISOString();

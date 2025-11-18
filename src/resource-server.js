@@ -4,6 +4,7 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 
 // Create a new MCP server with stdio transport
+// Random test edit - server creation
 const server = new McpServer(
   {
     name: "resource-server",
