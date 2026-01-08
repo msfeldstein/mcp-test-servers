@@ -62,7 +62,7 @@ server.tool(
       content: [
         {
           type: "text",
-          text: `Received parameters: ${JSON.stringify(params, null, 2)}`,
+          text: `Received parameters:\n${JSON.stringify(params, null, 2)}`,
         },
       ],
     };

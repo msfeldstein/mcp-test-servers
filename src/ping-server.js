@@ -55,7 +55,7 @@ server.tool("long-running-ping", {
 server.tool("echo", {
   text: z.string().describe("The text to echo")
 }, async (params) => {
-  // Return pong after waiting
+  // Echo back the provided text
   return {
     content: [{
       type: "text",
@@ -64,7 +64,34 @@ server.tool("echo", {
   };
 });
 
+// Register a new reverse tool that reverses the input string
+server.tool("reverse", {
+  text: z.string().describe("The text to reverse")
+}, async (params) => {
+  const reversed = params.text.split('').reverse().join('');
+  return {
+    content: [{
+      type: "text",
+      text: reversed
+    }]
+  };
+});
+
+// Register a count tool that counts characters and words
+server.tool("count", {
+  text: z.string().describe("The text to count characters and words in")
+}, async (params) => {
+  const charCount = params.text.length;
+  const wordCount = params.text.trim().split(/\s+/).filter(word => word.length > 0).length;
+  return {
+    content: [{
+      type: "text",
+      text: `Characters: ${charCount}, Words: ${wordCount}`
+    }]
+  };
+});
+
 // Connect to the transport and start the server
 await server.connect(new StdioServerTransport()); 
 
-// This server implements basic ping and echo functionality with configurable response delays
+// This server implements basic ping, echo, reverse, and count functionality with configurable response delays

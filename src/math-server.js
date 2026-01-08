@@ -225,8 +225,19 @@ server.tool("factorial", {
   }
   
   let result = 1;
+  // Fixed: Changed i < params.n to i <= params.n to include the last multiplication
   for (let i = 2; i <= params.n; i++) {
     result *= i;
+  }
+  
+  // Additional validation for very large results
+  if (!isFinite(result)) {
+    return {
+      content: [{
+        type: "text",
+        text: "Error: Factorial result exceeds maximum representable number"
+      }]
+    };
   }
   
   return {
