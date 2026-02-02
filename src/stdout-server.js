@@ -43,4 +43,4 @@ server.tool("ping", async (params) => {
 // This part might fail or hang because of the stdout write
 await server.connect(new StdioServerTransport()); 
 
-// This server intentionally writes to stdout on startup, which violates MCP rules. 
+// This server intentionally writes to stdout on startup, which violates MCP protocol rules. 

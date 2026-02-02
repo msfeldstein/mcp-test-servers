@@ -8,7 +8,7 @@ import { SONIC_IMAGE_BASE64 } from "./sample-image.js";
 // Create a new MCP server with stdio transport
 const server = new McpServer({
   name: "image-server",
-  version: "1.0.0",
+  version: "1.0.2",
 });
  
 // Register the generate_image tool

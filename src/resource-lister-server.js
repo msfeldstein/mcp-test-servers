@@ -63,27 +63,6 @@ const resources = [
   }
 ];
 
-// Register each resource
-resources.forEach(resource => {
-  server.resource(
-    resource.name,
-    resource.uri,
-    {
-      description: resource.description,
-      mimeType: resource.mimeType
-    },
-    async () => ({
-      contents: [
-        {
-          uri: resource.uri,
-          mimeType: resource.mimeType,
-          text: resource.content
-        }
-      ]
-    })
-  );
-});
-
 // Register the get-resource-list tool
 server.tool("get-resource-list", "Returns a list of all available resources as resource links", async (params) => {
   // Return resource links for each resource

@@ -4,6 +4,7 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 
 // Get the server name from environment variable, default to 'unnamed-server' if not set
+// This allows dynamic server naming at runtime
 const serverName = process.env.MCP_SERVER_NAME || 'unnamed-server';
 
 // Create a new MCP server with stdio transport

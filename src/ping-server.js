@@ -12,19 +12,14 @@ const server = new McpServer(
       tools: {
         "ping": {
           description: "A simple tool that returns 'pong'",
-          parameters: {
-            type: "object",
-            properties: {},
-            required: []
-          }
         },
       }
     }
   }
 );
 
-// Register the ping tool
-server.tool("ping", "A simple tool that returns 'pong'", async (params) => {
+// Register the ping tool with an explicit (empty) parameters schema
+server.tool("ping", z.object({}).describe("Ping tool does not require parameters"), async (params) => {
   return {
     content: [{
       type: "text",

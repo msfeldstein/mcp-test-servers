@@ -27,7 +27,7 @@ const PROMPTS = {
     description: "A static greeting prompt that always returns the same message"
   },
   "personalized-story": {
-    name: "personalized-story-with-a-very-long-name", 
+    name: "personalized-story", 
     description: "Generate a personalized story based on a character name and location",
     arguments: [
       {
@@ -111,4 +111,5 @@ server.setRequestHandler(GetPromptRequestSchema, async (request) => {
 const transport = new StdioServerTransport();
 await server.connect(transport); 
 
-// This server implements prompt functionality with both static and parameterized prompts 
+// This server implements prompt functionality with both static and parameterized prompts
+// Demonstrates the MCP prompts capability 
