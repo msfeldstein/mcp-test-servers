@@ -1,6 +1,15 @@
 {
   "servers": [
     {
+      "name": "auth-headers",
+      "displayName": "Auth Headers",
+      "description": "Streamable HTTP server that logs all request headers to stderr, with special focus on Authorization headers",
+      "file": "./auth-headers-server.js",
+      "type": "node",
+      "transport": "http",
+      "port": 3020
+    },
+    {
       "name": "all-types",
       "displayName": "All Types",
       "description": "Demonstrates various tool parameter types supported by MCP",
@@ -180,6 +189,13 @@
       "displayName": "Ping",
       "description": "A simple server that responds with 'pong'",
       "file": "./ping-server.js",
+      "type": "node"
+    },
+    {
+      "name": "ui-test",
+      "displayName": "UI Test",
+      "description": "MCP Apps server that renders a simple interactive dashboard UI",
+      "file": "./ui-test-server.js",
       "type": "node"
     },
     {

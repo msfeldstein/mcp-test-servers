@@ -11,7 +11,7 @@ import {
 const server = new Server(
   {
     name: "example-servers/long-running",
-    version: "1.2.0",
+    version: "1.2.1",
   },
   {
     capabilities: {

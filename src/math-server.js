@@ -17,7 +17,7 @@ import { z } from "zod";
 const server = new McpServer(
   {
     name: "math-server",
-    version: "1.0.0",
+    version: "1.0.1",
     capabilities: {
       tools: {
         "add": {

@@ -37,4 +37,4 @@ server.tool("log-to-stderr", async (params) => {
 // Connect to the transport and start the server
 await server.connect(new StdioServerTransport()); 
 
-// This server implements basic ping and echo functionality with configurable response delays
+// This server demonstrates logging to stderr for debugging purposes
