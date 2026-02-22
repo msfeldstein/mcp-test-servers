@@ -30,10 +30,12 @@ const delayedTool = server.tool(
 );
 delayedTool.disable();
 
-// Enable the tool after 1 second
+const enableDelayMs = 1000;
+
+// Enable the tool after the configured delay
 setTimeout(() => {
   delayedTool.enable();
-}, 1000);
+}, enableDelayMs);
 
 // Connect to the transport and start the server
 await server.connect(new StdioServerTransport());

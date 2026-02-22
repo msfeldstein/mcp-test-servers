@@ -47,6 +47,7 @@ Use the cli.js directly for development
 - `env-check`: Checks for SHOULD_RUN environment variable being passed properly
 - `env-echo`: Echoes the environment variables
 - `gpt5-breaker`: Server with SQL query execution tool using complex parameter validation
+- `graphing`: MCP Apps server with `show-graphing-ui`; UI renders an inline chart with Chart.js
 - `headers`: FastMCP server that safely returns HTTP header information
 - `instructions`: Server with instructions and a makeRequest tool that returns success for value 42
 - `image`: Tool returns an image of sonic the hedgehog
@@ -79,6 +80,7 @@ Use the cli.js directly for development
 - `sse-timeout`: Streamable HTTP server that establishes SSE connections but times out after 30 seconds to test client reconnection
 - `stderr`: Server that logs to stderr
 - `structured-output`: Demonstrates structuredContent responses with a simple echo tool
+- `ui`: MCP Apps server with `show-ui`; the rendered UI button calls the `get-time` tool and shows the current time inline
 - `dual-content`: Demonstrates different outputs for structuredContent and content in the same response
 - `everything`: Comprehensive server testing all MCP features - tools with/without params, resources, prompts, elicitation, dynamic tools, roots echo, env vars
 

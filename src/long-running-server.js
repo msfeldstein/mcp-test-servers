@@ -20,6 +20,8 @@ const server = new Server(
   }
 );
 
+const progressMethod = "notifications/progress";
+
 const LongRunningOperationSchema = z.object({
   duration: z
     .number()
@@ -129,7 +131,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     for (let i = 0; i < steps + 1; i++) {
       if (progressToken !== undefined) {
         await server.notification({
-          method: "notifications/progress",
+          method: progressMethod,
           params: {
             progress: i,
             total: steps,
@@ -161,7 +163,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     for (let i = 0; i < steps + 1; i++) {
       if (progressToken !== undefined) {
         await server.notification({
-          method: "notifications/progress",
+          method: progressMethod,
           params: {
             progress: i,
             progressToken,
@@ -203,7 +205,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       if (progressToken !== undefined) {
         const message = stepMessages[Math.min(i, stepMessages.length - 1)];
         await server.notification({
-          method: "notifications/progress",
+          method: progressMethod,
           params: {
             progress: i,
             total: steps,

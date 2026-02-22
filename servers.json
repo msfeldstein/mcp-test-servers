@@ -206,6 +206,13 @@
       "type": "node"
     },
     {
+      "name": "ui",
+      "displayName": "UI",
+      "description": "MCP Apps server with a show-ui tool; UI button calls the get-time tool from inside the iframe",
+      "file": "./ui-server.js",
+      "type": "node"
+    },
+    {
       "name": "prompts",
       "displayName": "Prompts",
       "description": "Server with two prompts - one static greeting and one dynamic story generator",
@@ -308,6 +315,13 @@
       "displayName": "GPT5 Breaker",
       "description": "Server with SQL query execution tool using complex parameter validation",
       "file": "./gpt5-breaker-server.js",
+      "type": "node"
+    },
+    {
+      "name": "graphing",
+      "displayName": "Graphing",
+      "description": "MCP Apps server that renders an inline chart with Chart.js",
+      "file": "./graphing-server.js",
       "type": "node"
     },
     {
