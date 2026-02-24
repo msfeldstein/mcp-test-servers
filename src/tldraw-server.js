@@ -134,7 +134,7 @@ const UI_HTML = `<!DOCTYPE html>
     <script type="module">
       import React from "https://esm.sh/react@18.2.0";
       import { createRoot } from "https://esm.sh/react-dom@18.2.0/client";
-      import { Tldraw, createShapeId } from "https://esm.sh/tldraw@${TLDRAW_VERSION}?deps=react@18.2.0,react-dom@18.2.0";
+      import { Tldraw, createShapeId, toRichText } from "https://esm.sh/tldraw@${TLDRAW_VERSION}?deps=react@18.2.0,react-dom@18.2.0";
 
       const statusEl = document.getElementById("status");
       const sampleBtn = document.getElementById("sampleBtn");
@@ -223,22 +223,6 @@ const UI_HTML = `<!DOCTYPE html>
         const shapes = [];
         const centers = new Map();
 
-        // Skip title for now to isolate the issue
-        // if (diagram.title) {
-        //   shapes.push({
-        //     id: createShapeId(),
-        //     type: "text",
-        //     x: 40,
-        //     y: 32,
-        //     props: {
-        //       text: diagram.title,
-        //       size: "l",
-        //       w: 800,
-        //       autoSize: true,
-        //     },
-        //   });
-        // }
-
         for (const node of diagram.nodes) {
           const shapeId = createShapeId();
           shapes.push({
@@ -250,8 +234,11 @@ const UI_HTML = `<!DOCTYPE html>
               geo: "rectangle",
               w: node.width,
               h: node.height,
+              richText: toRichText(node.text),
               align: "middle",
               verticalAlign: "middle",
+              labelColor: "black",
+              font: "sans",
               size: "m",
               color: "blue",
               fill: "solid",
