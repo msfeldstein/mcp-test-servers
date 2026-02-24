@@ -325,6 +325,13 @@
       "type": "node"
     },
     {
+      "name": "tldraw",
+      "displayName": "tldraw Diagram UI",
+      "description": "MCP Apps server that renders a tldraw canvas and lets the agent build diagrams from nodes and edges",
+      "file": "./tldraw-server.js",
+      "type": "node"
+    },
+    {
       "name": "sse-timeout",
       "displayName": "SSE Timeout",
       "description": "Streamable HTTP server that establishes SSE connections but times out after 30 seconds to test client reconnection",

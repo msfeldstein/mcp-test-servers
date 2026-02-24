@@ -80,6 +80,7 @@ Use the cli.js directly for development
 - `sse-timeout`: Streamable HTTP server that establishes SSE connections but times out after 30 seconds to test client reconnection
 - `stderr`: Server that logs to stderr
 - `structured-output`: Demonstrates structuredContent responses with a simple echo tool
+- `tldraw`: MCP Apps server with `show-diagram-ui`; UI renders a tldraw canvas and applies agent-provided nodes/edges as a diagram
 - `ui`: MCP Apps server with `show-ui`; the rendered UI button calls the `get-time` tool and shows the current time inline
 - `dual-content`: Demonstrates different outputs for structuredContent and content in the same response
 - `everything`: Comprehensive server testing all MCP features - tools with/without params, resources, prompts, elicitation, dynamic tools, roots echo, env vars
