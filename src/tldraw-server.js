@@ -286,9 +286,6 @@ const UI_HTML = `<!DOCTYPE html>
         const shapes = buildShapes(diagram);
         if (shapes.length > 0) {
           editor.createShapes(shapes);
-          if (typeof editor.zoomToFit === "function") {
-            editor.zoomToFit();
-          }
           setStatus("Rendered " + shapes.length + " shape(s) from " + sourceLabel + ".");
           return;
         }
