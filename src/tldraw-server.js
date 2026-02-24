@@ -231,6 +231,9 @@ const UI_HTML = `<!DOCTYPE html>
             y: 32,
             props: {
               text: diagram.title,
+              size: "l",
+              w: 800,
+              autoSize: true,
             },
           });
         }
