@@ -223,20 +223,21 @@ const UI_HTML = `<!DOCTYPE html>
         const shapes = [];
         const centers = new Map();
 
-        if (diagram.title) {
-          shapes.push({
-            id: createShapeId(),
-            type: "text",
-            x: 40,
-            y: 32,
-            props: {
-              text: diagram.title,
-              size: "l",
-              w: 800,
-              autoSize: true,
-            },
-          });
-        }
+        // Skip title for now to isolate the issue
+        // if (diagram.title) {
+        //   shapes.push({
+        //     id: createShapeId(),
+        //     type: "text",
+        //     x: 40,
+        //     y: 32,
+        //     props: {
+        //       text: diagram.title,
+        //       size: "l",
+        //       w: 800,
+        //       autoSize: true,
+        //     },
+        //   });
+        // }
 
         for (const node of diagram.nodes) {
           const shapeId = createShapeId();
@@ -249,7 +250,6 @@ const UI_HTML = `<!DOCTYPE html>
               geo: "rectangle",
               w: node.width,
               h: node.height,
-              text: node.text,
               align: "middle",
               verticalAlign: "middle",
               size: "m",
