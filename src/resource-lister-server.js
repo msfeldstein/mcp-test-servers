@@ -60,6 +60,20 @@ const resources = [
     description: "Sample image resource - Sonic the Hedgehog character image",
     mimeType: "image/jpeg",
     content: "/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
+  },
+  {
+    name: "Quick Reference Guide",
+    uri: "file://path/to/quick-reference.md",
+    description: "Quick reference card for common operations",
+    mimeType: "text/markdown",
+    content: "# Quick Reference\n\n## Common Commands\n- `get-resource-list`: List all available resources\n- Use resource URIs to fetch specific content\n\n## Resource Types\n- Markdown documents\n- JSON configurations\n- CSV data files\n- Image files"
+  },
+  {
+    name: "Changelog",
+    uri: "file://path/to/changelog.md",
+    description: "Version history and changes",
+    mimeType: "text/markdown",
+    content: "# Changelog\n\n## Version 1.0.0\n- Initial release\n- Added 7 resources\n- Implemented resource listing tool"
   }
 ];
 
@@ -79,7 +93,7 @@ server.tool("get-resource-list", "Returns a list of all available resources as r
   }));
 
   return {
-    content: resourceLinks
+    contents: resourceLinks
   };
 });
 

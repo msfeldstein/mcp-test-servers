@@ -49,10 +49,45 @@ server.tool("echo_structured", {
 }, async (params) => {
   const structured = {
     echo: params.message,
+    length: params.message.length
   };
 
   return {
     structuredContent: structured
+  };
+});
+
+// Register a new structured tool for mathematical operations
+server.tool("calculate_structured", {
+  operation: z.enum(["add", "subtract", "multiply", "divide"]).describe("The mathematical operation to perform"),
+  a: z.number().describe("First number"),
+  b: z.number().describe("Second number")
+}, async (params) => {
+  let result;
+  switch (params.operation) {
+    case "add":
+      result = params.a + params.b;
+      break;
+    case "subtract":
+      result = params.a - params.b;
+      break;
+    case "multiply":
+      result = params.a * params.b;
+      break;
+    case "divide":
+      if (params.b === 0) {
+        throw new Error("Division by zero is not allowed");
+      }
+      result = params.a / params.b;
+      break;
+  }
+
+  return {
+    structuredContent: {
+      operation: params.operation,
+      operands: { a: params.a, b: params.b },
+      result: result
+    }
   };
 });
 
