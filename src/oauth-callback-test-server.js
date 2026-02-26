@@ -16,10 +16,45 @@ app.use(express.urlencoded({ extended: true }));
 // State tracking
 const callbackReceived = new Map();
 const discoveryRequests = [];
+let latestClientAppVersion = null;
+
+const CLIENT_APP_VERSION_HEADER_KEYS = [
+  "x-client-app-version",
+  "x-cursor-client-version",
+  "x-cursor-version",
+  "x-app-version",
+  "cursor-client-version",
+  "mcp-client-version",
+];
+
+function normalizeHeaderValue(value) {
+  if (Array.isArray(value)) {
+    return value[0] || null;
+  }
+  return typeof value === "string" && value.trim() ? value.trim() : null;
+}
+
+function extractClientAppVersion(headers = {}) {
+  for (const headerKey of CLIENT_APP_VERSION_HEADER_KEYS) {
+    const candidate = normalizeHeaderValue(headers[headerKey]);
+    if (candidate) {
+      return candidate;
+    }
+  }
+
+  const userAgent = normalizeHeaderValue(headers["user-agent"]);
+  if (!userAgent) {
+    return null;
+  }
+
+  const cursorVersionMatch = userAgent.match(/cursor(?:\/|[\s-])([0-9][0-9A-Za-z.+-]*)/i);
+  return cursorVersionMatch ? cursorVersionMatch[1] : null;
+}
 
 // Enhanced request logging
 app.use((req, res, next) => {
   const timestamp = new Date().toISOString();
+  const appVersion = extractClientAppVersion(req.headers);
   const logEntry = {
     timestamp,
     method: req.method,
@@ -27,8 +62,13 @@ app.use((req, res, next) => {
     headers: { ...req.headers },
     query: { ...req.query },
     body: req.body,
-    userAgent: req.headers['user-agent'] || 'unknown'
+    userAgent: req.headers['user-agent'] || 'unknown',
+    appVersion,
   };
+
+  if (appVersion) {
+    latestClientAppVersion = appVersion;
+  }
   
   discoveryRequests.push(logEntry);
   
@@ -215,6 +255,7 @@ app.get("/debug/callback-status", (req, res) => {
   }));
   
   res.json({
+    app_version: latestClientAppVersion || "unknown",
     total_callbacks: callbackReceived.size,
     callbacks,
     recent_requests: discoveryRequests.slice(-20),

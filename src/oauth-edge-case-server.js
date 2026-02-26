@@ -23,22 +23,69 @@ authApp.use(express.urlencoded({ extended: true }));
 
 // Enhanced logging with timing
 const requestLog = [];
-function logWithTiming(server, method, url, extraInfo = "") {
+let latestClientAppVersion = null;
+
+const CLIENT_APP_VERSION_HEADER_KEYS = [
+  "x-client-app-version",
+  "x-cursor-client-version",
+  "x-cursor-version",
+  "x-app-version",
+  "cursor-client-version",
+  "mcp-client-version",
+];
+
+function normalizeHeaderValue(value) {
+  if (Array.isArray(value)) {
+    return value[0] || null;
+  }
+  return typeof value === "string" && value.trim() ? value.trim() : null;
+}
+
+function extractClientAppVersion(headers = {}) {
+  for (const headerKey of CLIENT_APP_VERSION_HEADER_KEYS) {
+    const candidate = normalizeHeaderValue(headers[headerKey]);
+    if (candidate) {
+      return candidate;
+    }
+  }
+
+  const userAgent = normalizeHeaderValue(headers["user-agent"]);
+  if (!userAgent) {
+    return null;
+  }
+
+  const cursorVersionMatch = userAgent.match(/cursor(?:\/|[\s-])([0-9][0-9A-Za-z.+-]*)/i);
+  return cursorVersionMatch ? cursorVersionMatch[1] : null;
+}
+
+function logWithTiming(server, method, url, headers = {}, extraInfo = "") {
   const timestamp = new Date();
-  const entry = { timestamp: timestamp.toISOString(), server, method, url, extraInfo };
+  const appVersion = extractClientAppVersion(headers);
+  const entry = {
+    timestamp: timestamp.toISOString(),
+    server,
+    method,
+    url,
+    appVersion,
+    extraInfo,
+  };
   requestLog.push(entry);
+
+  if (appVersion) {
+    latestClientAppVersion = appVersion;
+  }
   
   const timeStr = timestamp.toTimeString().split(' ')[0];
   console.log(`[${timeStr}] ${server.toUpperCase()} ${method} ${url} ${extraInfo}`);
 }
 
 app.use((req, res, next) => {
-  logWithTiming('resource', req.method, req.url);
+  logWithTiming('resource', req.method, req.url, req.headers);
   next();
 });
 
 authApp.use((req, res, next) => {
-  logWithTiming('auth', req.method, req.url);
+  logWithTiming('auth', req.method, req.url, req.headers);
   next();
 });
 
@@ -472,6 +519,7 @@ app.get('/debug/edge-cases', (req, res) => {
       active_access_tokens: accessTokens.size
     },
     stats: {
+      app_version: latestClientAppVersion || "unknown",
       total_requests: requestLog.length,
       invalid_endpoint_hits: requestLog.filter(r => 
         invalidEndpoints.includes(r.url) || r.url === '/token'

@@ -30,8 +30,43 @@ authApp.use(express.urlencoded({ extended: true }));
 // Request tracking
 const requestLog = [];
 const maxLogEntries = 1000;
+let latestClientAppVersion = null;
+
+const CLIENT_APP_VERSION_HEADER_KEYS = [
+  "x-client-app-version",
+  "x-cursor-client-version",
+  "x-cursor-version",
+  "x-app-version",
+  "cursor-client-version",
+  "mcp-client-version",
+];
+
+function normalizeHeaderValue(value) {
+  if (Array.isArray(value)) {
+    return value[0] || null;
+  }
+  return typeof value === "string" && value.trim() ? value.trim() : null;
+}
+
+function extractClientAppVersion(headers = {}) {
+  for (const headerKey of CLIENT_APP_VERSION_HEADER_KEYS) {
+    const candidate = normalizeHeaderValue(headers[headerKey]);
+    if (candidate) {
+      return candidate;
+    }
+  }
+
+  const userAgent = normalizeHeaderValue(headers["user-agent"]);
+  if (!userAgent) {
+    return null;
+  }
+
+  const cursorVersionMatch = userAgent.match(/cursor(?:\/|[\s-])([0-9][0-9A-Za-z.+-]*)/i);
+  return cursorVersionMatch ? cursorVersionMatch[1] : null;
+}
 
 function logRequest(server, method, url, headers, body, timestamp = new Date()) {
+  const appVersion = extractClientAppVersion(headers);
   const entry = {
     timestamp: timestamp.toISOString(),
     server,
@@ -39,8 +74,13 @@ function logRequest(server, method, url, headers, body, timestamp = new Date()) 
     url,
     headers: { ...headers },
     body: body ? JSON.stringify(body) : null,
-    userAgent: headers['user-agent'] || 'unknown'
+    userAgent: headers["user-agent"] || "unknown",
+    appVersion,
   };
+
+  if (appVersion) {
+    latestClientAppVersion = appVersion;
+  }
   
   requestLog.push(entry);
   if (requestLog.length > maxLogEntries) {
@@ -402,6 +442,7 @@ app.get("/token", (req, res) => {
 app.get("/debug/requests", (req, res) => {
   console.log("🔍 Debug request log accessed");
   res.json({
+    app_version: latestClientAppVersion || "unknown",
     total_requests: requestLog.length,
     recent_requests: requestLog.slice(-50),
     summary: {

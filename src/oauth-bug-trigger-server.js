@@ -25,19 +25,59 @@ authApp.use(express.urlencoded({ extended: true }));
 const allRequests = [];
 let callbackReceived = false;
 let tokenExchangeCompleted = false;
+let latestClientAppVersion = null;
+
+const CLIENT_APP_VERSION_HEADER_KEYS = [
+  "x-client-app-version",
+  "x-cursor-client-version",
+  "x-cursor-version",
+  "x-app-version",
+  "cursor-client-version",
+  "mcp-client-version",
+];
+
+function normalizeHeaderValue(value) {
+  if (Array.isArray(value)) {
+    return value[0] || null;
+  }
+  return typeof value === "string" && value.trim() ? value.trim() : null;
+}
+
+function extractClientAppVersion(headers = {}) {
+  for (const headerKey of CLIENT_APP_VERSION_HEADER_KEYS) {
+    const candidate = normalizeHeaderValue(headers[headerKey]);
+    if (candidate) {
+      return candidate;
+    }
+  }
+
+  const userAgent = normalizeHeaderValue(headers["user-agent"]);
+  if (!userAgent) {
+    return null;
+  }
+
+  const cursorVersionMatch = userAgent.match(/cursor(?:\/|[\s-])([0-9][0-9A-Za-z.+-]*)/i);
+  return cursorVersionMatch ? cursorVersionMatch[1] : null;
+}
 
 function logRequest(server, method, url, headers = {}) {
   const timestamp = Date.now();
+  const appVersion = extractClientAppVersion(headers);
   const entry = {
     timestamp,
     server,
     method,
     url,
+    appVersion,
     timeSinceCallback: callbackReceived ? timestamp - callbackTime : null,
     timeSinceToken: tokenExchangeCompleted ? timestamp - tokenTime : null
   };
   
   allRequests.push(entry);
+
+  if (appVersion) {
+    latestClientAppVersion = appVersion;
+  }
   
   const timeStr = new Date(timestamp).toTimeString().split(' ')[0];
   console.log(`[${timeStr}] ${server.toUpperCase()} ${method} ${url}`);
@@ -430,6 +470,7 @@ app.get('/debug/bug-trigger', (req, res) => {
   );
   
   res.json({
+    app_version: latestClientAppVersion || "unknown",
     status: {
       callback_received: callbackReceived,
       token_exchange_completed: tokenExchangeCompleted,
